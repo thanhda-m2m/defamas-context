@@ -1,9 +1,9 @@
 ---
 aliases:
-  - /ppes/eqgroup.php (VI)
+  - /{tenant}/eqgroup.php (VI)
 tags:
   - ppes
-  - vietnamese
+  - vi
   - admin
   - eqgroup
 ---
@@ -18,7 +18,7 @@ tags:
 
 ## Tóm tắt
 
-`/ppes/eqgroup.php` không chỉ quản lý `a_eqgroup`.
+`/{tenant}/eqgroup.php` không chỉ quản lý `a_eqgroup`.
 
 - upload còn sync `a_eqitem`
 - và mapping `a_eqgroup_detail`

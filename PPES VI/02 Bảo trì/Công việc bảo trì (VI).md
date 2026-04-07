@@ -1,9 +1,9 @@
 ---
 aliases:
-  - /ppes/mtinfo.php (VI)
+  - /{tenant}/mtinfo.php (VI)
 tags:
   - ppes
-  - vietnamese
+  - vi
   - maintenance
 ---
 
@@ -17,7 +17,7 @@ tags:
 
 ## Tóm tắt
 
-`/ppes/mtinfo.php` là controller bảo trì tổng quát.
+`/{tenant}/mtinfo.php` là controller bảo trì tổng quát.
 
 - quản lý header `a_mtinfo`
 - sync lịch `a_mtsch`

@@ -1,9 +1,9 @@
 ---
 aliases:
-  - /ppes/config.php (VI)
+  - /{tenant}/config.php (VI)
 tags:
   - ppes
-  - vietnamese
+  - vi
   - admin
   - config
 ---
@@ -17,7 +17,7 @@ tags:
 
 ## Tóm tắt
 
-`/ppes/config.php` chỉnh một record cấu hình dùng chung trong `bkmasters`.
+`/{tenant}/config.php` chỉnh một record cấu hình dùng chung trong `bkmasters`.
 
 - ảnh hưởng tới term mặc định của lịch
 - ảnh hưởng tới một số behavior giao diện chung

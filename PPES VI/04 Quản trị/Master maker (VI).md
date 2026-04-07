@@ -1,9 +1,9 @@
 ---
 aliases:
-  - /ppes/maker.php (VI)
+  - /{tenant}/maker.php (VI)
 tags:
   - ppes
-  - vietnamese
+  - vi
   - admin
   - maker
 ---
@@ -17,7 +17,7 @@ tags:
 
 ## Tóm tắt
 
-`/ppes/maker.php` quản lý `a_maker`.
+`/{tenant}/maker.php` quản lý `a_maker`.
 
 - được dùng lại trong `equip.php`
 - được dùng lại trong `stock.php`

@@ -1,9 +1,9 @@
 ---
 aliases:
-  - /ppes/auth.php (VI)
+  - /{tenant}/auth.php (VI)
 tags:
   - ppes
-  - vietnamese
+  - vi
   - admin
   - auth
 ---
@@ -17,7 +17,7 @@ tags:
 
 ## Tóm tắt
 
-`/ppes/auth.php` quản lý `a_auths`.
+`/{tenant}/auth.php` quản lý `a_auths`.
 
 - upload/import là nhánh ghi dữ liệu thực sự quan trọng
 - list/download đang hoạt động

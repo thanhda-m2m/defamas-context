@@ -1,9 +1,9 @@
 ---
 aliases:
-  - /ppes/mailtmpl.php (VI)
+  - /{tenant}/mailtmpl.php (VI)
 tags:
   - ppes
-  - vietnamese
+  - vi
   - admin
   - mail
 ---
@@ -17,7 +17,7 @@ tags:
 
 ## Tóm tắt
 
-`/ppes/mailtmpl.php` quản lý `a_mailtmpl`.
+`/{tenant}/mailtmpl.php` quản lý `a_mailtmpl`.
 
 - controller này không gửi mail trực tiếp
 - nhưng thay đổi ở đây ảnh hưởng tới maintenance flow và rent flow

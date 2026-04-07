@@ -1,9 +1,9 @@
 ---
 aliases:
-  - /ppes/info.php (VI)
+  - /{tenant}/info.php (VI)
 tags:
   - ppes
-  - vietnamese
+  - vi
   - admin
   - info
 ---
@@ -17,7 +17,7 @@ tags:
 
 ## Tóm tắt
 
-`/ppes/info.php` là CRUD cho thông báo tenant trong `bk_infos`.
+`/{tenant}/info.php` là CRUD cho thông báo tenant trong `bk_infos`.
 
 - list / edit / confirm / save / soft-delete
 - dữ liệu này được hiển thị lại ở trang lịch như news/info

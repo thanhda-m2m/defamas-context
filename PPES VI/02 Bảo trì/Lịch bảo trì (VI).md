@@ -1,9 +1,9 @@
 ---
 aliases:
-  - /ppes/sch.php (VI)
+  - /{tenant}/sch.php (VI)
 tags:
   - ppes
-  - vietnamese
+  - vi
   - maintenance
   - calendar
 ---
@@ -19,7 +19,7 @@ tags:
 
 ## Tóm tắt
 
-`/ppes/sch.php` là trang calendar/projection, không phải source-of-truth editor.
+`/{tenant}/sch.php` là trang calendar/projection, không phải source-of-truth editor.
 
 - đọc lịch từ `a_mtinfo + a_mtsch + a_mtres + a_equips`
 - hỗ trợ view day/month/year/long

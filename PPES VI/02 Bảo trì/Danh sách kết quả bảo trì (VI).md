@@ -1,9 +1,9 @@
 ---
 aliases:
-  - /ppes/mtres_list.php (VI)
+  - /{tenant}/mtres_list.php (VI)
 tags:
   - ppes
-  - vietnamese
+  - vi
   - maintenance
   - results
 ---
@@ -17,7 +17,7 @@ tags:
 
 ## Tóm tắt
 
-`/ppes/mtres_list.php` là trang reporting trên các maintenance row đã hoàn tất.
+`/{tenant}/mtres_list.php` là trang reporting trên các maintenance row đã hoàn tất.
 
 - chủ yếu read-only
 - join `a_mtinfo + a_equips + a_mtsch + a_mtres`

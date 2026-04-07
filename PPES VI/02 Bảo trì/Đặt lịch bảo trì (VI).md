@@ -1,9 +1,9 @@
 ---
 aliases:
-  - /ppes/mtinfo_yoyaku.php (VI)
+  - /{tenant}/mtinfo_yoyaku.php (VI)
 tags:
   - ppes
-  - vietnamese
+  - vi
   - maintenance
   - reservation
 ---
@@ -18,7 +18,7 @@ tags:
 
 ## Tóm tắt
 
-`/ppes/mtinfo_yoyaku.php` là nhánh reservation-oriented của maintenance.
+`/{tenant}/mtinfo_yoyaku.php` là nhánh reservation-oriented của maintenance.
 
 - tạo/sửa `a_mtinfo`
 - với `定期` sẽ generate nhiều row `a_mtsch`

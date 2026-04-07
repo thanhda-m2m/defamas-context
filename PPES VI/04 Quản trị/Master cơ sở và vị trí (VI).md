@@ -1,9 +1,9 @@
 ---
 aliases:
-  - /ppes/factory.php (VI)
+  - /{tenant}/factory.php (VI)
 tags:
   - ppes
-  - vietnamese
+  - vi
   - admin
   - factory
 ---
@@ -19,7 +19,7 @@ tags:
 
 ## Tóm tắt
 
-`/ppes/factory.php` là source-of-truth cho location hierarchy.
+`/{tenant}/factory.php` là source-of-truth cho location hierarchy.
 
 - `a_area`
 - `a_factory`

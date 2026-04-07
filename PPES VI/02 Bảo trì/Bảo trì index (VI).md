@@ -1,7 +1,7 @@
 ---
 tags:
   - ppes
-  - vietnamese
+  - vi
   - maintenance
   - menu
 ---

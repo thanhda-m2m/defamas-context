@@ -1,9 +1,9 @@
 ---
 aliases:
-  - /ppes/equip.php (VI)
+  - /{tenant}/equip.php (VI)
 tags:
   - ppes
-  - vietnamese
+  - vi
   - equip
 ---
 
@@ -17,7 +17,7 @@ tags:
 
 ## Tóm tắt
 
-`/ppes/equip.php` là controller trung tâm của domain thiết bị.
+`/{tenant}/equip.php` là controller trung tâm của domain thiết bị.
 
 - sở hữu `a_equips`, `a_equips_detail`, `a_eqhist`
 - list/search/export thiết bị

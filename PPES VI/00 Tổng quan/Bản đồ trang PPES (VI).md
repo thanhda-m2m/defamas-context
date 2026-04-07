@@ -4,7 +4,7 @@ aliases:
   - Vietnamese PPES map
 tags:
   - ppes
-  - vietnamese
+  - vi
   - overview
   - obsidian
 ---
@@ -30,6 +30,21 @@ flowchart LR
     Stock["在庫一覧 / Tồn kho"]
     Admin["管理 / Quản trị"]
 ```
+
+> **Super-admin layer:** Module `/padmin/` là panel quản trị cấp trên, dùng database riêng (`zaikodb`) và **không nằm trong** menu trên. Xem [[Kiến trúc đa tenant (VI)]] để biết toàn cảnh.
+
+## Các trang `/padmin/` (super-admin)
+
+| File | Tiêu đề | Mô tả |
+|---|---|---|
+| `index.php` | 管理画面 | Trang chủ dashboard |
+| `buscomps.php` | 契約会社管理 | Quản lý tenant — tạo/sửa/xem. Tạo mới kích hoạt `DatabaseSetup::createAndSetupDatabase()`. |
+| `staff.php` | スタッフ管理 | Tài khoản staff admin panel (`zaikodb.staff`) |
+| `tagents.php` | 旅行代理店管理 | Travel agents (`zaikodb.tagents`) |
+| `info.php` | お知らせ | Thông báo hệ thống toàn cục (`zaikodb.infos`) |
+| `words.php` | 多言語対応 | Xem/xuất danh sách nhãn đa ngôn ngữ từ `lib/lang.php` và `zaikodb.datamaster` |
+| `login.php` | — | Trang đăng nhập padmin |
+| `create_db_and_setup.php` | — | Class `DatabaseSetup` — được include bởi `buscomps.php` |
 
 ## Sơ đồ dữ liệu lõi
 

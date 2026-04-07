@@ -1,9 +1,9 @@
 ---
 aliases:
-  - /ppes/equip.php?edit=1&add=1 (VI)
+  - /{tenant}/equip.php?edit=1&add=1 (VI)
 tags:
   - ppes
-  - vietnamese
+  - vi
   - equip
   - add
 ---

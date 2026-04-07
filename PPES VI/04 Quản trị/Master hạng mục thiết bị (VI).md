@@ -1,9 +1,9 @@
 ---
 aliases:
-  - /ppes/eqitem.php (VI)
+  - /{tenant}/eqitem.php (VI)
 tags:
   - ppes
-  - vietnamese
+  - vi
   - admin
   - eqitem
 ---
@@ -18,7 +18,7 @@ tags:
 
 ## Tóm tắt
 
-`/ppes/eqitem.php` quản lý definition của từng field thiết bị trong `a_eqitem`.
+`/{tenant}/eqitem.php` quản lý definition của từng field thiết bị trong `a_eqitem`.
 
 - có API để bật/tắt `required_flg` và `record_flg` trong `a_eqgroup_detail`
 - delete item sẽ cleanup dữ liệu cũ trong `a_equips_detail` và `a_equips.details`

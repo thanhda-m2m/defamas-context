@@ -1,9 +1,9 @@
 ---
 aliases:
-  - /ppes/stock.php (VI)
+  - /{tenant}/stock.php (VI)
 tags:
   - ppes
-  - vietnamese
+  - vi
   - stock
 ---
 
@@ -17,7 +17,7 @@ tags:
 
 ## Tóm tắt
 
-`/ppes/stock.php` quản lý `a_stocks` và liên kết thiết bị qua `a_eqstocks`.
+`/{tenant}/stock.php` quản lý `a_stocks` và liên kết thiết bị qua `a_eqstocks`.
 
 - list/search/export tồn kho
 - edit tồn kho và chọn thiết bị liên quan

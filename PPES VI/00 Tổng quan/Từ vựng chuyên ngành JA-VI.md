@@ -4,7 +4,7 @@ aliases:
   - Từ vựng JA-VI
 tags:
   - ppes
-  - vietnamese
+  - vi
   - glossary
   - obsidian
 ---

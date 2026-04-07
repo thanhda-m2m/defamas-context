@@ -1,9 +1,9 @@
 ---
 aliases:
-  - /ppes/staff.php (VI)
+  - /{tenant}/staff.php (VI)
 tags:
   - ppes
-  - vietnamese
+  - vi
   - admin
   - staff
 ---
@@ -17,7 +17,7 @@ tags:
 
 ## Tóm tắt
 
-`/ppes/staff.php` quản lý `bk_staff`.
+`/{tenant}/staff.php` quản lý `bk_staff`.
 
 - dùng `a_auths` để gán level quyền
 - dùng area/factory để scope người dùng
