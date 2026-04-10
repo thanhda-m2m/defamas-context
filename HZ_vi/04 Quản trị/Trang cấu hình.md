@@ -101,3 +101,29 @@ flowchart TD
 
 - [[Configuration page]]
 - [[Lịch bảo trì]]
+
+---
+
+## Phụ lục: giải thích tên bảng
+
+> Schema đầy đủ (cột, kiểu dữ liệu, mục đích từng cột) cho tất cả bảng liệt kê ở đây xem tại [[Bảng từ điển]].
+
+### Cấu hình tenant (sở hữu bởi trang này)
+
+| Bảng | Vai trò |
+| --- | --- |
+| **[[Bảng từ điển#bkmasters\|bkmasters]]** | Cấu hình tenant. Bảng chính của trang này. Mỗi row ứng với một `bkid`. Lưu tên công ty (`compname`), default term lịch (`term`), khoảng ngày kiểm kê (`tana_date1`/`tana_date2`), tùy chọn hiển thị (`hide_eqid`, `del_disable`, `zaiko_add`), mã ký tự download (`dl_char`), và email quản lý (`mng_mail`). Merge vào context `aspUser` lúc request, nên thay đổi ở đây ảnh hưởng behavior trên tất cả các trang. |
+
+### Tra cứu hỗ trợ
+
+| Bảng | Vai trò |
+| --- | --- |
+| **[[Bảng từ điển#datamaster\|datamaster]]** | Master giá trị dropdown tổng quát. Dùng trên form cấu hình cho nhãn option (ví dụ encoding choices, toggle labels). |
+
+### Auth / session context
+
+| Bảng | Vai trò |
+| --- | --- |
+| **[[Bảng từ điển#buscomps\|buscomps]]** | Registry tenant (`zaikodb`). Được đọc khi đăng nhập để xác định công ty tenant và kiểm tra feature flag. |
+| **[[Bảng từ điển#bk_staff\|bk_staff]]** | Tài khoản nhân viên theo tenant. Được `openUser()` kiểm tra để xác thực session cookie và resolve `bkid` + `stf_id`. |
+| **[[Bảng từ điển#a_auths\|a_auths]]** | Nhóm quyền tính năng. `setAuth($db, $request, $authId)` đọc bảng này để xác định người dùng hiện tại có thể xem hay chỉnh sửa gì trên trang. |

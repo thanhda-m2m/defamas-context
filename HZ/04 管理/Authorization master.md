@@ -6,13 +6,21 @@ tags:
   - admin
   - auth
 ---
-
 # Authorization master
+
+Define permission groups that control what each user role can do. Permissions are set per feature area. This is the foundation of the access control system.
 
 Related notes:
 
 - [[管理 index]]
+- Vietnamese version: [[Phân quyền master]]
 - [[Staff management]]
+
+
+## Registration Method
+
+Export excel file and use it as import template
+
 
 ## Summary
 
@@ -44,7 +52,7 @@ flowchart TD
 - `bk_staff`
 - `bkmasters`
 
-## Mermaid: inferred entity relationships
+## Inferred entity relationships
 
 > **Note**: The database has zero explicit FK constraints. All relationships below are enforced at the application level.
 
@@ -119,9 +127,20 @@ Upload/save-order oddities:
 - upload writes `a_auths`
 - save-order path appears to update `a_maker`, likely stale copy-paste logic
 
+## Import / Export
+
+> For full architecture details, see [[Import-Export architecture]].
+
+| Direction | Format | Template file | Output filename |
+|-----------|--------|--------------|-----------------|
+| **Export** | Excel (.xlsx) | `M_PERMIT.xlsx` | `auth-{ymdhi}.xlsx` |
+| **Import** | Excel → CSV | *(no template — accepts any .xlsx/.csv)* | temp: `{bkid}-auth.csv` |
+
+- Export loads `htdocs/base/M_PERMIT.xlsx` (or `htdocs/sys/M_PERMIT.xlsx` for the sys module) as a template, populates it with data, and streams it to the browser.
+- Import accepts an Excel file, converts it to CSV via `Excel::convToCsv()`, then parses rows with `fgetcsv()` and upserts into `a_auths`.
+
 ## Side effects
 
-- Excel import/export
 - auth redirects
 - import temp CSV generation
 - important downstream effect: permission changes alter access across many PPES pages

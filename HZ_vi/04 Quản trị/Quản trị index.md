@@ -21,6 +21,10 @@ tags:
 - [[Trang cấu hình]]
 - [[Từ vựng chuyên ngành JA-VI]]
 
+## Kiến trúc xuyên suốt
+
+- [[Kiến trúc Import-Export]] — pattern import/export chung được dùng bởi tất cả trang master ở trên
+
 ## Mermaid
 
 ```mermaid

@@ -8,7 +8,6 @@ tags:
   - config
   - obsidian
 ---
-
 # Configuration page
 
 Related notes:
@@ -42,7 +41,7 @@ flowchart TD
 - `a_auths`
 - `datamaster`
 
-## Mermaid: inferred entity relationships
+## Inferred entity relationships
 
 > **Note**: The database has zero explicit FK constraints. All relationships below are enforced at the application level.
 
@@ -126,3 +125,29 @@ Reasoning:
 - `htdocs/base/config.php:25-64`
 - `htdocs/base/config.php:85-150`
 - `htdocs/base/sch.php:38-44`
+
+---
+
+## Appendix: table glossary
+
+> Full schema (columns, types, per-column purpose) for every table listed here is in [[Table Glossary]].
+
+### Tenant configuration (owned by this page)
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#bkmasters\|bkmasters]]** | Tenant configuration. The primary table owned by this page. One row per `bkid`. Stores company name (`compname`), schedule term default (`term`), inventory date range (`tana_date1`/`tana_date2`), display preferences (`hide_eqid`, `del_disable`, `zaiko_add`), download character encoding (`dl_char`), and manager email (`mng_mail`). Merged into `aspUser` context at request time, so changes here affect behaviour across all pages. |
+
+### Helper lookups
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#datamaster\|datamaster]]** | Generic dropdown value master. Used on the configuration form for option labels (e.g., encoding choices, display toggle labels). |
+
+### Auth / session context
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#buscomps\|buscomps]]** | Tenant registry (`zaikodb`). Read during login to identify the tenant company and check feature flags. |
+| **[[Table Glossary#bk_staff\|bk_staff]]** | Tenant staff accounts. Checked by `openUser()` to authenticate the session cookie and resolve `bkid` + `stf_id`. |
+| **[[Table Glossary#a_auths\|a_auths]]** | Feature permission groups. `setAuth($db, $request, $authId)` reads this to determine what the current user can view or edit on the page. |

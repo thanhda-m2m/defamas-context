@@ -279,3 +279,57 @@ For the submit/save path:
 - Equipment controller overview: [[Equipment page]]
 - Stock management page: [[Stock management]]
 - PPES page index: [[PPES page map]]
+
+---
+
+## Appendix: table glossary
+
+> Full schema (columns, types, per-column purpose) for every table listed here is in [[Table Glossary]].
+
+### Equipment domain (written on save)
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#a_equips\|a_equips]]** | Equipment master. Duplicate-checked on save (machine number uniqueness), then inserted with a new `eq_id` serial. Stores header fields: name, group, factory/line/floor placement, maker, and custom field values. |
+| **[[Table Glossary#a_equips_detail\|a_equips_detail]]** | Per-equipment item values. Written after the equipment header — one row per dynamic field per equipment (`eq_id` + `eqitem_id` → `eqd_val`). |
+| **[[Table Glossary#a_eqhist\|a_eqhist]]** | Equipment change history. Inserted on save to capture a field-level snapshot for audit trail. |
+
+### Dynamic field definitions (read on form load)
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#a_eqgroup\|a_eqgroup]]** | Equipment group master. Populates the group dropdown on the add form. |
+| **[[Table Glossary#a_eqgroup_detail\|a_eqgroup_detail]]** | Group-to-item mapping. Determines which dynamic fields appear for the selected equipment group. |
+| **[[Table Glossary#a_eqitem\|a_eqitem]]** | Equipment item definition. Stores field name, type, and dropdown options for each dynamic field rendered on the form. |
+
+### Location / org hierarchy (read on form load)
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#a_area\|a_area]]** | Area master. Joined when loading factories for the dropdown. |
+| **[[Table Glossary#a_factory\|a_factory]]** | Factory master. Populates the factory dropdown on the add form. |
+| **[[Table Glossary#a_line\|a_line]]** | Line master. Populates the line dropdown, filtered by selected factory. |
+| **[[Table Glossary#a_floor\|a_floor]]** | Floor / room master. Populates the floor dropdown and converts `flr_name` to `flr_id` on save. |
+
+### Optional stock upload
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#a_stocks\|a_stocks]]** | Stock item master. Written only when the add form includes stock-list file attachments. |
+| **[[Table Glossary#a_eqstocks\|a_eqstocks]]** | Equipment-to-stock link. Written alongside `a_stocks` to link stock items to the new equipment. |
+
+### Helper lookups
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#a_maker\|a_maker]]** | Maker / supplier master. Populates the maker dropdown on the add form. |
+| **[[Table Glossary#datamaster\|datamaster]]** | Generic dropdown value master. Used for column header and label resolution on the form. |
+
+### Auth / session context
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#buscomps\|buscomps]]** | Tenant registry (`zaikodb`). Read during login to identify the tenant company and check feature flags. |
+| **[[Table Glossary#bk_staff\|bk_staff]]** | Tenant staff accounts. Checked by `openUser()` to authenticate the session cookie and resolve `bkid` + `stf_id`. |
+| **[[Table Glossary#bkmasters\|bkmasters]]** | Tenant configuration. One row per `bkid`; stores company name, working-hour settings, display preferences, and other tenant-level config. |
+| **[[Table Glossary#a_auths\|a_auths]]** | Feature permission groups. `setMultiAuth()` reads this to determine whether the current user can add equipment. |

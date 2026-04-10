@@ -90,6 +90,18 @@ flowchart TD
     AuthTable --> SetAuth["setAuth() across pages"]
 ```
 
+## Import / Export
+
+> Chi tiết kiến trúc đầy đủ xem tại [[Kiến trúc Import-Export]].
+
+| Hướng | Định dạng | File template | Tên file xuất |
+|-------|-----------|--------------|---------------|
+| **Export** | Excel (.xlsx) | `M_PERMIT.xlsx` | `auth-{ymdhi}.xlsx` |
+| **Import** | Excel → CSV | *(không có template — chấp nhận mọi .xlsx/.csv)* | temp: `{bkid}-auth.csv` |
+
+- Export tải `htdocs/base/M_PERMIT.xlsx` (hoặc `htdocs/sys/M_PERMIT.xlsx` cho module sys) làm template, điền dữ liệu, và stream ra browser.
+- Import chấp nhận file Excel, chuyển đổi sang CSV qua `Excel::convToCsv()`, rồi parse hàng bằng `fgetcsv()` và upsert vào `a_auths`.
+
 ## Xem thêm
 
 - [[Authorization master]]

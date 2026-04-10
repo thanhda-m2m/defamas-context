@@ -128,3 +128,30 @@ Reasoning:
 - `htdocs/base/info.php:25-61`
 - `htdocs/base/info.php:71-102`
 - `htdocs/base/info.php:104-179`
+
+---
+
+## Appendix: table glossary
+
+> Full schema (columns, types, per-column purpose) for every table listed here is in [[Table Glossary]].
+
+### Announcement data (owned by this page)
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#bk_infos\|bk_infos]]** | Tenant-scoped announcements. The primary table owned by this page. One row per announcement per tenant. Stores title (`inf_title`), content (`inf_conts`), and soft-delete flag (`del_flg`). Content created here is displayed in the news/info widget on [[Schedule calendar]]. |
+
+### Helper lookups
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#datamaster\|datamaster]]** | Generic dropdown value master. Used for label resolution on the announcement form. |
+
+### Auth / session context
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#buscomps\|buscomps]]** | Tenant registry (`zaikodb`). Read during login to identify the tenant company and check feature flags. |
+| **[[Table Glossary#bk_staff\|bk_staff]]** | Tenant staff accounts. Checked by `openUser()` to authenticate the session cookie and resolve `bkid` + `stf_id`. |
+| **[[Table Glossary#bkmasters\|bkmasters]]** | Tenant configuration. One row per `bkid`; stores company name, working-hour settings, display preferences, and other tenant-level config. |
+| **[[Table Glossary#a_auths\|a_auths]]** | Feature permission groups. `setAuth($db, $request, 1)` determines announcement list/edit permissions. |

@@ -216,3 +216,56 @@ Delete paths remove:
 - `htdocs/base/mtinfo.php:603-707`
 - `htdocs/base/mtinfo.php:807-1134`
 - `htdocs/base/mtinfo.php:1307-1426`
+
+---
+
+## Appendix: table glossary
+
+> Full schema (columns, types, per-column purpose) for every table listed here is in [[Table Glossary]].
+
+### Maintenance chain (owned by this page)
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#a_mtinfo\|a_mtinfo]]** | Maintenance plan. The primary table owned by this page. One row per maintenance task per equipment. Stores task name, type (`mtinfo_kbn`), planned schedule window, and category. Both periodic regeneration and one-off creation paths write this table. Delete can also remove this row. |
+| **[[Table Glossary#a_mtsch\|a_mtsch]]** | Maintenance schedule instance. For periodic work, `save_teiki()` prunes and regenerates future schedule rows. For one-off work, one row is created/updated. Delete targets individual schedule rows by `mts_uid`. |
+| **[[Table Glossary#a_mtres\|a_mtres]]** | Maintenance result. For non-periodic work, this page creates and updates result rows. Attachments can be mirrored from `mtinfo` file slots into `mtres` storage slots. |
+
+### Equipment context (read-only)
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#a_equips\|a_equips]]** | Equipment master. Loaded to display target equipment info. `eq_id` is the parent FK for `a_mtinfo`. |
+| **[[Table Glossary#a_equips_detail\|a_equips_detail]]** | Per-equipment item values. Read in edit mode to show equipment field context alongside maintenance data. |
+| **[[Table Glossary#a_eqgroup\|a_eqgroup]]** | Equipment group master. Used for the group filter dropdown on the list page. |
+| **[[Table Glossary#a_eqgroup_detail\|a_eqgroup_detail]]** | Group-to-item mapping. Read in edit mode for field label resolution. |
+| **[[Table Glossary#a_eqitem\|a_eqitem]]** | Equipment item definition. Read for dynamic field label display. |
+
+### Location / org hierarchy
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#a_factory\|a_factory]]** | Factory master. Used for the factory filter dropdown on the list page. |
+| **[[Table Glossary#a_line\|a_line]]** | Line master. Used for the line filter. |
+
+### Mail notification
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#a_mailtmpl\|a_mailtmpl]]** | Mail template master. Loaded when sending periodic maintenance reminder mail. |
+
+### Helper lookups
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#a_maker\|a_maker]]** | Maker master. Read for equipment display context. |
+| **[[Table Glossary#datamaster\|datamaster]]** | Generic dropdown value master. Used for label resolution (e.g., `mtinfo_kbn` code → display name). |
+
+### Auth / session context
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#buscomps\|buscomps]]** | Tenant registry (`zaikodb`). Read during login to identify the tenant company and check feature flags. |
+| **[[Table Glossary#bk_staff\|bk_staff]]** | Tenant staff accounts. Checked by `openUser()` to authenticate the session cookie and resolve `bkid` + `stf_id`. |
+| **[[Table Glossary#bkmasters\|bkmasters]]** | Tenant configuration. One row per `bkid`; stores company name, working-hour settings, display preferences, and other tenant-level config. |
+| **[[Table Glossary#a_auths\|a_auths]]** | Feature permission groups. `setAuth()` with auth IDs 11, 12, and 10 determines maintenance list/edit/download permissions. |

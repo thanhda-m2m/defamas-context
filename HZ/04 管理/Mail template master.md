@@ -132,3 +132,38 @@ Reasoning:
 - `htdocs/base/mailtmpl.php:26-68`
 - `htdocs/base/mailtmpl.php:72-176`
 - `lib/ppes.php:248-343`
+
+---
+
+## Appendix: table glossary
+
+> Full schema (columns, types, per-column purpose) for every table listed here is in [[Table Glossary]].
+
+### Mail template (owned by this page)
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#a_mailtmpl\|a_mailtmpl]]** | Mail template master. The primary table owned by this page. One row per template per tenant. Stores subject line (`subject`), body text (`body`) with replacement tags, and template type (`mtype`). Keyed by `mtid` — specific IDs are consumed by maintenance and rental mail flows. |
+
+### Downstream consumers (read-only context)
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#a_mtinfo\|a_mtinfo]]** | Maintenance plan. Not read directly by this page, but maintenance flows load templates by `mtid` when sending reminder mail. |
+| **[[Table Glossary#a_mtres\|a_mtres]]** | Maintenance result. Not read directly by this page, but result flows load templates when sending completion notifications. |
+| **[[Table Glossary#a_rent\|a_rent]]** | Rental records. Not read directly by this page, but rental flows load templates for return reminders. |
+
+### Helper lookups
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#datamaster\|datamaster]]** | Generic dropdown value master. Used for label resolution on the template edit form. |
+
+### Auth / session context
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#buscomps\|buscomps]]** | Tenant registry (`zaikodb`). Read during login to identify the tenant company and check feature flags. |
+| **[[Table Glossary#bk_staff\|bk_staff]]** | Tenant staff accounts. Checked by `openUser()` to authenticate the session cookie and resolve `bkid` + `stf_id`. |
+| **[[Table Glossary#bkmasters\|bkmasters]]** | Tenant configuration. One row per `bkid`; stores company name, `mng_mail` (manager email for mail dispatch), and other tenant-level config. |
+| **[[Table Glossary#a_auths\|a_auths]]** | Feature permission groups. `setAuth($db, $request, $authId)` reads this to determine what the current user can view or edit on the page. |

@@ -152,6 +152,19 @@ Written directly:
 - `a_stocks`
 - `a_eqstocks`
 
+## Import / Export
+
+> For full architecture details, see [[Import-Export architecture]].
+
+| Direction | Format | Template file | Output filename |
+|-----------|--------|--------------|-----------------|
+| **Export (Excel)** | Excel (.xlsx) | `T_STOCK.xlsx` | `stock-{ymdhi}.xlsx` |
+| **Export (CSV)** | CSV | *(no template)* | `stock-{ymdhi}.csv` |
+| **Import** | — | — | — |
+
+- This page supports **dual export**: `download="ex"` → Excel using `htdocs/base/T_STOCK.xlsx` (or `htdocs/sys/T_STOCK.xlsx`) as a template; other truthy values → CSV streamed directly.
+- There is **no direct import** on this page. Stock data can be imported indirectly through stock-list file uploads on [[Equipment page]] (`equip.php`).
+
 ## Side effects
 
 - JSON equipment picker API
@@ -178,3 +191,49 @@ Written directly:
 - `htdocs/base/stock.php:140-154`
 - `htdocs/base/stock.php:180-422`
 - `htdocs/base/stock.php:424-553`
+
+---
+
+## Appendix: table glossary
+
+> Full schema (columns, types, per-column purpose) for every table listed here is in [[Table Glossary]].
+
+### Stock domain (owned by this page)
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#a_stocks\|a_stocks]]** | Stock item master. The primary table owned by this page. One row per stock item per factory (`hin_id` + `fc_id`). Stores item name, classification (`stock_kbn`), current quantity (`stk_num`), and warning threshold (`stk_num_warn`). List/edit/delete all target this table. |
+| **[[Table Glossary#a_eqstocks\|a_eqstocks]]** | Equipment-to-stock link. Junction table linking stock items to equipment (`hin_id` + `eq_id` + `fc_id`). Managed on edit/delete alongside `a_stocks`. |
+
+### Equipment context (read-only)
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#a_equips\|a_equips]]** | Equipment master. Read for linked equipment display and the equipment picker API. |
+| **[[Table Glossary#a_eqgroup\|a_eqgroup]]** | Equipment group master. Used for the group filter dropdown on the list page. |
+| **[[Table Glossary#a_eqgroup_detail\|a_eqgroup_detail]]** | Group-to-item mapping. Read in edit mode to show equipment dynamic field context. |
+| **[[Table Glossary#a_eqitem\|a_eqitem]]** | Equipment item definition. Read alongside `a_eqgroup_detail` for label display. |
+
+### Location / org hierarchy
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#a_area\|a_area]]** | Area master. Joined when loading factories for the filter dropdown. |
+| **[[Table Glossary#a_factory\|a_factory]]** | Factory master. Used for the factory filter dropdown and as a key dimension of stock items (`fc_id` is part of the composite PK). |
+| **[[Table Glossary#a_line\|a_line]]** | Line master. Used for the line filter. |
+
+### Helper lookups
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#a_maker\|a_maker]]** | Maker / supplier master. Read for equipment display context in edit mode. |
+| **[[Table Glossary#datamaster\|datamaster]]** | Generic dropdown value master. Used for label resolution (e.g., `stock_kbn` code → display name). |
+
+### Auth / session context
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#buscomps\|buscomps]]** | Tenant registry (`zaikodb`). Read during login to identify the tenant company and check feature flags. |
+| **[[Table Glossary#bk_staff\|bk_staff]]** | Tenant staff accounts. Checked by `openUser()` to authenticate the session cookie and resolve `bkid` + `stf_id`. |
+| **[[Table Glossary#bkmasters\|bkmasters]]** | Tenant configuration. One row per `bkid`; stores company name, working-hour settings, display preferences, and other tenant-level config. |
+| **[[Table Glossary#a_auths\|a_auths]]** | Feature permission groups. `setAuth()` with auth IDs 14 and 10 determines stock list/edit permissions. |

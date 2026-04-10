@@ -27,6 +27,10 @@ Menu group for `管理` and `master_tab.inc`. These are **per-tenant** admin pag
 - [[Mail template master]]
 - [[Configuration page]]
 
+## Cross-cutting architecture
+
+- [[Import-Export architecture]] — shared import/export pattern used by all master pages above
+
 ## Master relationships
 
 ```mermaid

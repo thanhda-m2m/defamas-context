@@ -254,6 +254,22 @@ Delete also removes:
 - `a_equips`
 - `a_equips_detail`
 
+## Import / Export
+
+> For full architecture details, see [[Import-Export architecture]].
+
+| Direction | Format | Template file | Output filename |
+|-----------|--------|--------------|-----------------|
+| **Export (Excel)** | Excel (.xlsx) | `equip.xlsx` | `equip-{ymdhi}.xlsx` |
+| **Export (CSV)** | CSV | *(no template)* | `equip-{ymdhi}.csv` |
+| **Import** | Excel → CSV | *(no template — accepts any .xlsx/.csv)* | temp: `{bkid}-equip.csv` |
+
+- This page supports **dual export**: `download=1` → Excel using `htdocs/base/equip.xlsx` as a template; `download=2` → CSV streamed directly.
+- Excel export includes async progress tracking via a `donefile` (polled by `api=check_dl`).
+- `dlKeys()` is **dynamic** — columns are built at runtime from `detailKeys()` based on the equipment group configuration, unlike other pages where `dlKeys()` is static.
+- Import via `uploadEqFile()` uses a **two-pass** approach: first pass validates all rows, second pass writes to DB.
+- `sys/equip.php` variants only support CSV export (no Excel template).
+
 ## Side effects
 
 - physical equipment files are created, copied, and deleted under the equipment data directory
@@ -298,3 +314,65 @@ Delete also removes:
 - `htdocs/base/equip.php:716-846`
 - `htdocs/base/equip.php:962-1203`
 - `htdocs/base/equip.php:1266-1751`
+
+---
+
+## Appendix: table glossary
+
+> Full schema (columns, types, per-column purpose) for every table listed here is in [[Table Glossary]].
+
+### Equipment domain (owned by this page)
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#a_equips\|a_equips]]** | Equipment master. The primary table owned by this page. One row per physical equipment per tenant. Stores the name (`eq_name`), factory/line/floor placement (`fc_id`, `line_id`, `flr_id`), equipment group (`eqg_id`), maker (`mat_mk_id`), machine numbers, and serialised custom field values (`eq_vals`). Soft-deleted via `del_flg`. |
+| **[[Table Glossary#a_equips_detail\|a_equips_detail]]** | Per-equipment item values. Stores one row per dynamic field per equipment (`eq_id` + `eqitem_id` → `eqd_val`). Written on save alongside the equipment header. |
+| **[[Table Glossary#a_eqhist\|a_eqhist]]** | Equipment change history. One row per save event per equipment. Records a snapshot of field values at each modification for audit/history display. |
+
+### Dynamic field definitions
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#a_eqgroup\|a_eqgroup]]** | Equipment group master. Used for the group filter dropdown on the list page and to determine which dynamic fields appear on the edit form. |
+| **[[Table Glossary#a_eqgroup_detail\|a_eqgroup_detail]]** | Group-to-item mapping. Junction table that defines which items belong to each group, with `required_flg` and `record_flg` flags. `dlKeys()` and the edit form read this to build dynamic columns. |
+| **[[Table Glossary#a_eqitem\|a_eqitem]]** | Equipment item definition. Stores field name, type, and dropdown options. Consumed to render the dynamic equipment form and to build export columns. |
+
+### Location / org hierarchy
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#a_area\|a_area]]** | Area master. Joined when loading factories for the filter/dropdown. |
+| **[[Table Glossary#a_factory\|a_factory]]** | Factory master. Used for the factory filter dropdown and as a placement dimension for equipment. |
+| **[[Table Glossary#a_line\|a_line]]** | Line master. Sub-location within a factory. Used for the line filter dropdown and equipment placement. |
+| **[[Table Glossary#a_floor\|a_floor]]** | Floor / room master. Finest-grained location level. Used for equipment placement and the floor dropdown on the edit form. |
+
+### Stock linkage
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#a_stocks\|a_stocks]]** | Stock item master. Written when stock-list files are uploaded from the equipment edit form. |
+| **[[Table Glossary#a_eqstocks\|a_eqstocks]]** | Equipment-to-stock link. Written alongside `a_stocks` during stock-list file uploads. Also checked as a delete blocker. |
+
+### Delete blockers (read-only)
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#a_mtinfo\|a_mtinfo]]** | Maintenance plan. Checked before equipment delete — if maintenance records reference this equipment, delete is blocked. |
+| **[[Table Glossary#a_mtsch\|a_mtsch]]** | Maintenance schedule instance. Joined with `a_mtinfo` during delete blocking checks. |
+| **[[Table Glossary#a_rent\|a_rent]]** | Rental records. Checked before equipment delete — if rental records reference this equipment, delete is blocked. |
+
+### Helper lookups
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#a_maker\|a_maker]]** | Maker / supplier master. Used for the maker dropdown on the edit form. Equipment rows store `mat_mk_id` referencing this table. |
+| **[[Table Glossary#datamaster\|datamaster]]** | Generic dropdown value master. Used for column header and label resolution across the page. |
+
+### Auth / session context
+
+| Table | Purpose |
+| --- | --- |
+| **[[Table Glossary#buscomps\|buscomps]]** | Tenant registry (`zaikodb`). Read during login to identify the tenant company and check feature flags. |
+| **[[Table Glossary#bk_staff\|bk_staff]]** | Tenant staff accounts. Checked by `openUser()` to authenticate the session cookie and resolve `bkid` + `stf_id`. Also used to display last-editor names. |
+| **[[Table Glossary#bkmasters\|bkmasters]]** | Tenant configuration. One row per `bkid`; stores company name, working-hour settings, display preferences (`hide_eqid`, `del_disable`), and other tenant-level config. |
+| **[[Table Glossary#a_auths\|a_auths]]** | Feature permission groups. `setMultiAuth()` reads this to determine list/edit/import/export permissions for the current user. |
