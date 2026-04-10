@@ -1,13 +1,13 @@
 ---
 aliases:
-  - /{tenant}/stock.php (VI)
+  - /{tenant}/stock.php
 tags:
   - ppes
   - vi
   - stock
 ---
 
-# Quản lý tồn kho (VI)
+# Quản lý tồn kho
 
 ## Thuật ngữ chính
 

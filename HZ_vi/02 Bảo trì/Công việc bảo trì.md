@@ -1,6 +1,6 @@
 ---
 aliases:
-  - /{tenant}/mtinfo.php (VI)
+  - /{tenant}/mtinfo.php
 tags:
   - ppes
   - vi
@@ -105,5 +105,5 @@ flowchart TD
 ## Xem thêm
 
 - [[Maintenance work page]]
-- [[Danh sách kết quả bảo trì (VI)]]
+- [[Danh sách kết quả bảo trì]]
 - [[Lịch bảo trì]]

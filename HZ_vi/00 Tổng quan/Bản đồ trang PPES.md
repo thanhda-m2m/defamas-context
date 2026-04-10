@@ -17,7 +17,7 @@ Note tổng quan tiếng Việt cho wiki PPES.
 
 - [[Thiết bị index]]
 - [[Bảo trì index]]
-- [[Tồn kho index (VI)]]
+- [[Tồn kho index]]
 - [[Quản trị index]]
 - [[Từ vựng chuyên ngành JA-VI]]
 

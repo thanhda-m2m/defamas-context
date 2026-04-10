@@ -1,6 +1,6 @@
 ---
 aliases:
-  - /{tenant}/eqgroup.php (VI)
+  - /{tenant}/eqgroup.php
 tags:
   - ppes
   - vi

@@ -1,6 +1,6 @@
 ---
 aliases:
-  - /{tenant}/sch.php (VI)
+  - /{tenant}/sch.php
 tags:
   - ppes
   - vi
@@ -43,11 +43,11 @@ Toàn bộ icon trên calendar grid đều được điều khiển bởi các c
 
 ### Path A — ngày nằm trong khoảng `s_date`–`e_date` của một row `a_mtsch`
 
-| Icon | Bảng | Cột | Điều kiện | Màu nền ô |
-| --- | --- | --- | --- | --- |
-| ● tròn đặc | `a_mtsch` | `mtr_done` | có giá trị (đã đăng ký kết quả BT) | mặc định / xanh nếu là hôm nay |
-| ○ tròn rỗng | `a_mtsch` | `mtr_done` | NULL hoặc rỗng **và** `e_date` ≥ hôm nay | mặc định / xanh nếu là hôm nay |
-| ○ tròn rỗng *(quá hạn)* | `a_mtsch` | `mtr_done` | NULL hoặc rỗng **và** `e_date` < hôm nay | **vàng** |
+| Icon                    | Bảng      | Cột        | Điều kiện                                | Màu nền ô                      |
+| ----------------------- | --------- | ---------- | ---------------------------------------- | ------------------------------ |
+| ● tròn đặc              | `a_mtsch` | `mtr_done` | có giá trị (đã đăng ký kết quả BT)       | mặc định / xanh nếu là hôm nay |
+| ○ tròn rỗng             | `a_mtsch` | `mtr_done` | NULL hoặc rỗng **và** `e_date` ≥ hôm nay | mặc định / xanh nếu là hôm nay |
+| ○ tròn rỗng *(quá hạn)* | `a_mtsch` | `mtr_done` | NULL hoặc rỗng **và** `e_date` < hôm nay | **vàng**                       |
 
 Hành vi link: khi `mtr_done` có giá trị → mở `mtres.php` chế độ xem (`&look=1`); khi rỗng → mở chế độ chỉnh sửa.
 

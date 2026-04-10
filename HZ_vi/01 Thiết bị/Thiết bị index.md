@@ -12,7 +12,7 @@ tags:
 
 - [[Trang thiết bị]]
 - [[Thêm thiết bị]]
-- [[Quản lý tồn kho (VI)]]
+- [[Quản lý tồn kho]]
 - [[Từ vựng chuyên ngành JA-VI]]
 
 ## Luồng chính

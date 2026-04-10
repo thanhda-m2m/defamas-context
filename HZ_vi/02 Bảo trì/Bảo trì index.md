@@ -12,7 +12,7 @@ tags:
 
 - [[Đặt lịch bảo trì]]
 - [[Công việc bảo trì]]
-- [[Danh sách kết quả bảo trì (VI)]]
+- [[Danh sách kết quả bảo trì]]
 - [[Lịch bảo trì]]
 - [[Từ vựng chuyên ngành JA-VI]]
 

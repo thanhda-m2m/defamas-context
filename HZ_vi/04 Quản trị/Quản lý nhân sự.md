@@ -1,6 +1,6 @@
 ---
 aliases:
-  - /{tenant}/staff.php (VI)
+  - /{tenant}/staff.php
 tags:
   - ppes
   - vi

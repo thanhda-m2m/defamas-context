@@ -1,6 +1,6 @@
 ---
 aliases:
-  - /{tenant}/equip.php?edit=1&add=1 (VI)
+  - /{tenant}/equip.php?edit=1&add=1
 tags:
   - ppes
   - vi
@@ -124,7 +124,7 @@ erDiagram
     a_equips ||--o{ a_eqstocks : "eq_id"
 ```
 
-## Mermaid
+## Luồng chính
 
 ```mermaid
 flowchart TD

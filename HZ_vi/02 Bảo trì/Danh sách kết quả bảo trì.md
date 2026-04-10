@@ -1,6 +1,6 @@
 ---
 aliases:
-  - /{tenant}/mtres_list.php (VI)
+  - /{tenant}/mtres_list.php
 tags:
   - ppes
   - vi
@@ -8,7 +8,7 @@ tags:
   - results
 ---
 
-# Danh sách kết quả bảo trì (VI)
+# Danh sách kết quả bảo trì
 
 ## Thuật ngữ chính
 

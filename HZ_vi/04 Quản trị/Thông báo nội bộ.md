@@ -1,6 +1,6 @@
 ---
 aliases:
-  - /{tenant}/info.php (VI)
+  - /{tenant}/info.php
 tags:
   - ppes
   - vi

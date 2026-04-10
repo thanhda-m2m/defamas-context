@@ -1,4 +1,4 @@
-﻿---
+---
 aliases:
   - /{tenant}/equip.php
   - equipment page context

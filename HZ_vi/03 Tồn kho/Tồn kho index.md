@@ -6,9 +6,9 @@ tags:
   - menu
 ---
 
-# Tồn kho index (VI)
+# Tồn kho index
 
 ## Notes
 
-- [[Quản lý tồn kho (VI)]]
+- [[Quản lý tồn kho]]
 - [[Từ vựng chuyên ngành JA-VI]]

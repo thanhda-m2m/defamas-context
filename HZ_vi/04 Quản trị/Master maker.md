@@ -1,6 +1,6 @@
 ---
 aliases:
-  - /{tenant}/maker.php (VI)
+  - /{tenant}/maker.php
 tags:
   - ppes
   - vi

@@ -1,6 +1,6 @@
 ---
 aliases:
-  - /{tenant}/eqitem.php (VI)
+  - /{tenant}/eqitem.php
 tags:
   - ppes
   - vi

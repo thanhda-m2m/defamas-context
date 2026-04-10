@@ -1,7 +1,6 @@
 ---
 aliases:
   - kiến trúc đa tenant
-  - đa thuê bao
 tags:
   - ppes
   - vi

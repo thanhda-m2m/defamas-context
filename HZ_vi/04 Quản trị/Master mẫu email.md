@@ -1,6 +1,6 @@
 ---
 aliases:
-  - /{tenant}/mailtmpl.php (VI)
+  - /{tenant}/mailtmpl.php
 tags:
   - ppes
   - vi

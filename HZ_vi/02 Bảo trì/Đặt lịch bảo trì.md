@@ -1,6 +1,6 @@
 ---
 aliases:
-  - /{tenant}/mtinfo_yoyaku.php (VI)
+  - /{tenant}/mtinfo_yoyaku.php
 tags:
   - ppes
   - vi

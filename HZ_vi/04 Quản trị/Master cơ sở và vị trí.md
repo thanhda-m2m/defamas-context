@@ -1,6 +1,6 @@
 ---
 aliases:
-  - /{tenant}/factory.php (VI)
+  - /{tenant}/factory.php
 tags:
   - ppes
   - vi
@@ -96,4 +96,4 @@ flowchart TD
 
 - [[Factory and location master]]
 - [[Trang thiết bị]]
-- [[Quản lý tồn kho (VI)]]
+- [[Quản lý tồn kho]]

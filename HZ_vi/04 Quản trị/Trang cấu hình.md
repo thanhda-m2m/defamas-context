@@ -1,6 +1,6 @@
 ---
 aliases:
-  - /{tenant}/config.php (VI)
+  - /{tenant}/config.php
 tags:
   - ppes
   - vi

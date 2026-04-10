@@ -1,6 +1,6 @@
 ---
 aliases:
-  - /{tenant}/equip.php (VI)
+  - /{tenant}/equip.php
 tags:
   - ppes
   - vi
@@ -158,4 +158,4 @@ flowchart TD
 
 - [[Equipment page]]
 - [[Thêm thiết bị]]
-- [[Quản lý tồn kho (VI)]]
+- [[Quản lý tồn kho]]
