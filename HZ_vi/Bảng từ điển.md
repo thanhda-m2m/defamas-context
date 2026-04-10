@@ -38,6 +38,42 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 | [[#a_auths]] | Auth / session | Nhóm quyền tính năng |
 | [[#a_eqgroup]] | Auth / session | Master nhóm thiết bị |
 | [[#a_area]] | Địa điểm / tổ chức | Master khu vực |
+| [[#a_ckgroup]] | Kiểm tra / inspection | Master nhóm kiểm tra |
+| [[#a_ckgroup_detail]] | Kiểm tra / inspection | Bảng liên kết nhóm kiểm tra ↔ hạng mục kiểm tra |
+| [[#a_ckitem]] | Kiểm tra / inspection | Master hạng mục kiểm tra |
+| [[#a_eqgroup_detail]] | Thiết bị | Bảng liên kết nhóm thiết bị ↔ trường tùy chỉnh |
+| [[#a_eqhist]] | Thiết bị | Lịch sử thay đổi thiết bị |
+| [[#a_eqitem]] | Thiết bị | Master trường tùy chỉnh thiết bị |
+| [[#a_eqpoint]] | Thiết bị | Master điểm kiểm tra thiết bị |
+| [[#a_eqstocks]] | Thiết bị | Bảng liên kết thiết bị ↔ tồn kho |
+| [[#a_equips_detail]] | Thiết bị | Giá trị trường tùy chỉnh thiết bị |
+| [[#a_floor]] | Địa điểm / tổ chức | Master tầng |
+| [[#a_files]] | Quản lý file | Đăng ký file đính kèm tổng quát |
+| [[#a_mailtmpl]] | Email / thông báo | Master mẫu email |
+| [[#mail_master]] | Email / thông báo | Master người nhận email |
+| [[#a_maker]] | Nhà sản xuất | Master nhà sản xuất / nhà cung cấp |
+| [[#a_mtbf]] | Độ tin cậy | Chỉ số MTBF / MTTR |
+| [[#a_rent]] | Cho thuê | Bản ghi cho thuê / mượn thiết bị |
+| [[#a_stocks]] | Tồn kho / kiểm kê | Master tồn kho / phụ tùng |
+| [[#a_tana]] | Tồn kho / kiểm kê | Bản ghi kiểm kê vật lý (棚卸) |
+| [[#ads_master]] | Master dữ liệu | Master giá trị dropdown theo tenant |
+| [[#bk_idmaster]] | Master dữ liệu | Bộ cấp ID tuần tự |
+| [[#calendars]] | Calendar / lịch | Sự kiện lịch theo tenant |
+| [[#myview]] | Calendar / lịch | Lịch bảo trì được đánh dấu cá nhân |
+| [[#busareas]] | Auth / quản trị | Phân công công ty ↔ khu vực |
+| [[#bustypengdays]] | Auth / quản trị | Ngày không khả dụng theo loại kinh doanh |
+| [[#loginhist]] | Auth / quản trị | Nhật ký đăng nhập / đăng xuất |
+| [[#staff]] | Auth / quản trị | Tài khoản super-admin (zaikodb) |
+| [[#p_item]] | CAPEX / mua sắm | Master hạng mục mua sắm |
+| [[#p_mente]] | CAPEX / mua sắm | Bản ghi bảo trì dự án |
+| [[#p_proj]] | CAPEX / mua sắm | Master dự án |
+| [[#p_purchase]] | CAPEX / mua sắm | Đơn đặt hàng |
+| [[#p_puritem]] | CAPEX / mua sắm | Dòng chi tiết đơn đặt hàng |
+| [[#p_ringi]] | CAPEX / mua sắm | Yêu cầu phê duyệt (稟議) |
+| [[#p_rinitem]] | CAPEX / mua sắm | Dòng chi tiết yêu cầu phê duyệt |
+| [[#p_sisan]] | CAPEX / mua sắm | Sổ tài sản cố định |
+| [[#p_sisancode]] | CAPEX / mua sắm | Master mã / thẻ tài sản |
+| [[#syain_master]] | Nhân viên | Master công nhân / nhân viên vận hành |
 
 ---
 
@@ -495,5 +531,971 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 | `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
 | `modify_date` / `create_date` | datetime | Timestamp kiểm toán. |
 | `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+
+---
+
+## a_ckgroup
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Master nhóm kiểm tra. Nhóm nhiều hạng mục kiểm tra (`a_ckitem`) thành một nhóm có tên, có thể gán cho thiết bị trong quy trình kiểm định. Mỗi nhóm thuộc phạm vi tenant và được sắp xếp theo `disporder`.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Composite PK với `ckg_id`. |
+| `ckg_id` | smallint(6) NOT NULL | ID nhóm kiểm tra (business PK). |
+| `ckg_name` | varchar(32) | Tên hiển thị nhóm kiểm tra. |
+| `disporder` | smallint(6) | Thứ tự hiển thị trong danh sách. |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+
+---
+
+## a_ckgroup_detail
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Bảng liên kết nhóm kiểm tra ↔ hạng mục kiểm tra. Liên kết các hạng mục kiểm tra riêng lẻ với nhóm kiểm tra cha. Cờ `required_flg` đánh dấu các hạng mục bắt buộc phải điền khi kiểm định.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Phần của composite PK. |
+| `ckg_id` | smallint(6) NOT NULL | ID nhóm kiểm tra (app-FK → `a_ckgroup.ckg_id`). Phần của composite PK. |
+| `ck_id` | smallint(6) NOT NULL | ID hạng mục kiểm tra (app-FK → `a_ckitem.ck_id`). Phần của composite PK. |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `required_flg` | tinyint(1) | Cờ bắt buộc. `1` = hạng mục phải được điền khi kiểm định. |
+
+---
+
+## a_ckitem
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Master hạng mục kiểm tra. Định nghĩa các hạng mục kiểm tra / kiểm định riêng lẻ với tên, loại (đo lường số, lựa chọn, v.v.), giá trị min/max/cơ sở chấp nhận cho kiểm tra số, và các tùy chọn có thể chọn cho hạng mục dạng dropdown.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Composite PK với `ck_id`. |
+| `ck_id` | smallint(6) NOT NULL | ID hạng mục kiểm tra (business PK). |
+| `ck_name` | varchar(32) | Tên hiển thị hạng mục kiểm tra. |
+| `ck_type` | varchar(2) | Mã loại hạng mục (số, lựa chọn, v.v.). |
+| `max_size` | float | Giá trị tối đa chấp nhận (cho kiểm tra số). |
+| `min_size` | float | Giá trị tối thiểu chấp nhận (cho kiểm tra số). |
+| `base_size` | float | Giá trị cơ sở / tiêu chuẩn (cho kiểm tra số). |
+| `select_item` | text | Danh sách tùy chọn có thể chọn (cho hạng mục dạng dropdown). |
+| `disporder` | smallint(6) | Thứ tự hiển thị trong danh sách. |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+
+---
+
+## a_eqgroup_detail
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Bảng liên kết nhóm thiết bị ↔ trường tùy chỉnh thiết bị. Kiểm soát trường tùy chỉnh động nào (`a_eqitem`) hiển thị trên form chỉnh sửa thiết bị của một nhóm thiết bị cụ thể. `required_flg` đánh dấu trường bắt buộc; `record_flg` kiểm soát hiển thị trong chế độ xem lịch sử / bản ghi.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Phần của composite PK. |
+| `eqg_id` | smallint(6) NOT NULL | ID nhóm thiết bị (app-FK → `a_eqgroup.eqg_id`). Phần của composite PK. |
+| `eqitem_id` | smallint(6) NOT NULL | ID trường tùy chỉnh (app-FK → `a_eqitem.eqitem_id`). Phần của composite PK. |
+| `required_flg` | tinyint(1) | Cờ bắt buộc. `1` = trường phải được điền. |
+| `record_flg` | tinyint(1) | Cờ hiển thị bản ghi. `1` = hiển thị trong chế độ xem lịch sử. |
+| `ecgd_uid` | bigint(20) unsigned AUTO_INCREMENT | ID row duy nhất toàn cầu. |
+| `disporder` | smallint(6) | Thứ tự hiển thị trong danh sách. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+
+---
+
+## a_eqhist
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Lịch sử / nhật ký thay đổi thiết bị. Ghi nhận các mục văn bản có dấu thời gian cho mỗi thiết bị, khóa bởi `eq_id` + `eq_time` (unix timestamp). Dùng để theo dõi lịch sử chuyển giao, thay đổi trạng thái, và ghi chú của vận hành viên.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Phần của composite PK. |
+| `eq_id` | int(11) NOT NULL | ID thiết bị (app-FK → `a_equips.eq_id`). Phần của composite PK. |
+| `eq_time` | int(11) NOT NULL | Unix timestamp sự kiện. Phần của composite PK. |
+| `eq_conts` | text | Nội dung mô tả sự kiện / thay đổi. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+
+---
+
+## a_eqitem
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Master định nghĩa trường tùy chỉnh thiết bị. Định nghĩa các trường động trên form chỉnh sửa thiết bị. Mỗi row xác định tên trường, loại input, regex xác thực, tùy chọn có thể chọn, ràng buộc min/max, và màu hiển thị. Hỗ trợ nhãn song ngữ (JP + EN). Liên kết đến nhóm thiết bị qua `a_eqgroup_detail`.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Composite PK với `eqitem_name`. |
+| `eqitem_name` | varchar(32) NOT NULL | Tên trường tùy chỉnh (business PK). |
+| `eqitem_id` | smallint(6) | ID trường tùy chỉnh (dùng liên kết với `a_eqgroup_detail`). |
+| `eqitem_type` | varchar(32) | Mã loại input (text, select, number, v.v.). |
+| `select_item` | text | Danh sách tùy chọn có thể chọn (tiếng Nhật). |
+| `eqitem_regexp` | varchar(128) | Biểu thức chính quy xác thực giá trị. |
+| `eqitem_uid` | bigint(20) unsigned AUTO_INCREMENT | ID row duy nhất toàn cầu. |
+| `disporder` | smallint(6) | Thứ tự hiển thị trong danh sách. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+| `max_size` | int(11) | Giá trị tối đa cho ràng buộc. |
+| `min_size` | int(11) | Giá trị tối thiểu cho ràng buộc. |
+| `eqitem_name_en` | varchar(32) | Tên trường tiếng Anh. |
+| `select_item_en` | text | Danh sách tùy chọn có thể chọn (tiếng Anh). |
+| `item_color` | varchar(16) | Mã màu hiển thị trường. |
+
+---
+
+## a_eqpoint
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Master điểm kiểm tra thiết bị. Định nghĩa các điểm đo lường / kiểm tra được đặt tên trên một thiết bị.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Composite PK với `po_id`. |
+| `po_id` | varchar(32) NOT NULL | Mã điểm kiểm tra (business PK). |
+| `eq_id` | int(11) | ID thiết bị (app-FK → `a_equips.eq_id`). |
+| `po_name` | varchar(64) | Tên hiển thị điểm kiểm tra. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+| `is_del` | tinyint(1) | Cờ xóa mềm. `1` = đã xóa. |
+| `fld1` | varchar(64) | Trường dự trữ 1. |
+| `fld2` | varchar(32) | Trường dự trữ 2. |
+| `fld3` | varchar(16) | Trường dự trữ 3. |
+| `eqp_order` | smallint(6) | Thứ tự hiển thị điểm kiểm tra. |
+
+---
+
+## a_eqstocks
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Bảng liên kết thiết bị ↔ tồn kho. Liên kết hạng mục tồn kho với thiết bị tại một nhà máy cụ thể. Cột `tana` lưu thông tin kệ / vị trí lưu trữ.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Phần của composite PK. |
+| `hin_id` | varchar(64) NOT NULL | Mã hạng mục tồn kho (app-FK → `a_stocks.hin_id`). Phần của composite PK. |
+| `eq_id` | int(11) NOT NULL | ID thiết bị (app-FK → `a_equips.eq_id`). Phần của composite PK. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+| `fc_id` | varchar(16) NOT NULL | Mã nhà máy (app-FK → `a_factory.fc_id`). Phần của composite PK. |
+| `tana` | varchar(32) | Vị trí kệ / nơi lưu trữ. |
+
+---
+
+## a_equips_detail
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Giá trị trường tùy chỉnh thiết bị. Lưu giá trị thực tế của mỗi trường động cho một thiết bị cụ thể.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Phần của composite PK. |
+| `eq_id` | int(11) NOT NULL | ID thiết bị (app-FK → `a_equips.eq_id`). Phần của composite PK. |
+| `eqitem_id` | int(11) NOT NULL | ID trường tùy chỉnh (app-FK → `a_eqitem.eqitem_id`). Phần của composite PK. |
+| `eqd_uid` | bigint(20) unsigned AUTO_INCREMENT | ID row duy nhất toàn cầu. |
+| `eqd_val` | varchar(300) | Giá trị thực tế của trường tùy chỉnh. |
+| `disporder` | smallint(6) | Thứ tự hiển thị. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+
+---
+
+## a_files
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Đăng ký file đính kèm tổng quát. Thiết kế đa hình — `f_type` xác định loại thực thể cha, `f_id` là ID record cha, `f_num` là số slot.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Phần của composite PK. |
+| `f_type` | varchar(16) NOT NULL | Loại thực thể cha (ví dụ thiết bị, bảo trì, v.v.). Phần của composite PK. |
+| `f_id` | int(11) NOT NULL | ID record cha. Phần của composite PK. |
+| `f_num` | varchar(8) NOT NULL | Số slot file. Phần của composite PK. |
+| `f_name` | varchar(128) NOT NULL | Tên file gốc. Phần của composite PK. |
+| `f_size` | int(11) | Kích thước file (bytes). |
+| `f_uid` | bigint(20) unsigned AUTO_INCREMENT | ID row duy nhất toàn cầu. |
+| `disporder` | smallint(6) | Thứ tự hiển thị. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+
+---
+
+## a_floor
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Master tầng. Cấp thứ ba trong phân cấp địa điểm: Khu vực → Nhà máy → Dây chuyền → Tầng. Các row thiết bị có thể tham chiếu qua `flr_id`.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Phần của composite PK. |
+| `fc_id` | varchar(16) NOT NULL | Mã nhà máy (app-FK → `a_factory.fc_id`). Phần của composite PK. |
+| `line_id` | varchar(8) NOT NULL | Mã dây chuyền (app-FK → `a_line.line_id`). Phần của composite PK. |
+| `flr_id` | varchar(16) NOT NULL | Mã tầng (business PK). Phần của composite PK. |
+| `flr_name` | varchar(32) | Tên hiển thị tầng. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+| `flr_order` | int(11) | Thứ tự hiển thị tầng. |
+
+---
+
+## a_mailtmpl
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Master mẫu email. Lưu các mẫu email được sử dụng trong quy trình thông báo bảo trì và cho thuê. Mỗi mẫu có tiêu đề, chủ đề, nội dung với token thay thế, và mã loại.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Composite PK với `mtid`. |
+| `mtid` | smallint(6) NOT NULL | ID mẫu email (business PK). |
+| `title` | varchar(32) | Tiêu đề nội bộ của mẫu. |
+| `subject` | varchar(64) | Chủ đề email. |
+| `body` | text | Nội dung email với token thay thế. |
+| `mtype` | char(1) | Mã loại mẫu. |
+| `disporder` | smallint(6) | Thứ tự hiển thị. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+| `create_date` | datetime | Datetime tạo row. |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+
+---
+
+## a_maker
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Master nhà sản xuất / nhà cung cấp. Lưu thông tin liên hệ nhà sản xuất thiết bị và nhà cung cấp bao gồm liên hệ trực tiếp và liên hệ qua đại lý. Xóa mềm qua `mk_del`. Được thiết bị tham chiếu qua `a_equips.mat_mk_id`.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Composite PK với `mk_id`. |
+| `mk_id` | varchar(16) NOT NULL | Mã nhà sản xuất (business PK). Collation `utf8mb4_bin`. |
+| `mk_name` | varchar(64) | Tên hiển thị nhà sản xuất. |
+| `mk_uid` | bigint(20) unsigned AUTO_INCREMENT | ID row duy nhất toàn cầu. |
+| `disporder` | smallint(6) | Thứ tự hiển thị. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+| `mk_phone` | varchar(32) | Số điện thoại nhà sản xuất. |
+| `mk_fax` | varchar(32) | Số fax nhà sản xuất. |
+| `mk_tanto` | varchar(32) | Tên người phụ trách liên hệ trực tiếp. |
+| `mk_tanto_phone` | varchar(32) | Điện thoại người phụ trách trực tiếp. |
+| `mk_ag_phone` | varchar(32) | Số điện thoại đại lý. |
+| `mk_ag_fax` | varchar(32) | Số fax đại lý. |
+| `mk_ag_tanto_phone` | varchar(32) | Điện thoại người phụ trách đại lý. |
+| `mk_ag_tanto` | varchar(32) | Tên người phụ trách đại lý. |
+| `mk_ag_name` | varchar(32) | Tên đại lý. |
+| `mk_kana` | varchar(64) | Tên kana nhà sản xuất (phiên âm). |
+| `mk_del` | tinyint(1) | Cờ xóa mềm. `1` = đã xóa. |
+| `mk_mail` | varchar(64) | Địa chỉ email nhà sản xuất. |
+
+---
+
+## a_mtbf
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Chỉ số độ tin cậy MTBF / MTTR. Thống kê Mean Time Between Failures và Mean Time To Repair được tính trước cho mỗi thiết bị theo từng kỳ tài chính.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Phần của composite PK. |
+| `eq_id` | int(11) NOT NULL | ID thiết bị (app-FK → `a_equips.eq_id`). Phần của composite PK. |
+| `ft_id` | smallint(6) NOT NULL | ID kỳ tài chính. Phần của composite PK. |
+| `ttltime` | int(11) | Tổng thời gian trong kỳ (phút). |
+| `downtime` | int(11) | Tổng thời gian ngừng hoạt động (phút). |
+| `livetime` | int(11) | Tổng thời gian hoạt động (phút). |
+| `fails` | int(11) | Số lần hỏng hóc trong kỳ. |
+| `mtbf` | int(11) | Giá trị MTBF tính trước (phút). |
+| `mttr` | int(11) | Giá trị MTTR tính trước (phút). |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `startdate` | datetime | Ngày bắt đầu kỳ tính toán. |
+| `enddate` | datetime | Ngày kết thúc kỳ tính toán. |
+
+---
+
+## a_rent
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Bản ghi cho thuê / mượn thiết bị. Theo dõi việc cho mượn thiết bị với khoảng thời gian đặt chỗ, thông tin người mượn, quy trình phê duyệt, và cài đặt nhắc nhở trả.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Phần của composite PK. |
+| `eq_id` | int(11) NOT NULL | ID thiết bị (app-FK → `a_equips.eq_id`). Phần của composite PK. |
+| `start_date` | datetime NOT NULL | Ngày bắt đầu cho mượn. Phần của composite PK. |
+| `end_date` | datetime | Ngày kết thúc cho mượn. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+| `rent_id` | int(11) | ID bản ghi cho thuê. |
+| `rent_stat` | char(1) | Mã trạng thái cho thuê. |
+| `create_stf` | smallint(6) | ID nhân viên tạo bản ghi. |
+| `auth_stf` | smallint(6) | ID nhân viên phê duyệt. |
+| `auth_date` | datetime | Ngày phê duyệt. |
+| `rt_auth_stat` | smallint(6) | Mã trạng thái phê duyệt cho thuê. |
+| `rent_stf` | smallint(6) | ID nhân viên mượn thiết bị. |
+| `rent_mail` | varchar(64) | Email người mượn. |
+| `rent_phone` | varchar(32) | Điện thoại người mượn. |
+| `rent_sec` | varchar(32) | Phòng ban người mượn. |
+| `rent_purpose` | varchar(32) | Mục đích mượn thiết bị. |
+| `rent_memo` | varchar(255) | Ghi chú cho thuê. |
+| `rent_ngres` | char(1) | Mã lý do từ chối. |
+| `rent_remday` | smallint(6) | Số ngày trước khi nhắc nhở trả. |
+| `is_rent` | tinyint(1) | Cờ đánh dấu đang cho mượn. `1` = đang mượn. |
+
+---
+
+## a_stocks
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Master tồn kho / phụ tùng. Mỗi row là một hạng mục tồn kho tại một nhà máy. Theo dõi số lượng hiện tại, mức tồn kho an toàn, ngưỡng cảnh báo, phân loại tồn kho, vị trí kệ, và thiết bị liên quan.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Phần của composite PK. |
+| `hin_id` | varchar(100) NOT NULL | Mã hạng mục tồn kho (business PK). Phần của composite PK. |
+| `hin_name` | varchar(256) | Tên hiển thị hạng mục tồn kho. |
+| `stk_num` | float | Số lượng hiện tại. |
+| `stk_num_safe` | float | Mức tồn kho an toàn. |
+| `stk_num_warn` | float | Ngưỡng cảnh báo tồn kho. |
+| `stock_kbn` | char(1) | Mã phân loại tồn kho. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+| `stk_uid` | bigint(20) unsigned AUTO_INCREMENT | ID row duy nhất toàn cầu. |
+| `fc_id` | varchar(16) NOT NULL | Mã nhà máy (app-FK → `a_factory.fc_id`). Phần của composite PK. |
+| `stk_date` | date | Ngày cập nhật tồn kho. |
+| `line_id` | varchar(8) | Mã dây chuyền (app-FK → `a_line.line_id`). |
+| `mak_name` | varchar(32) | Tên nhà sản xuất (denormalized). |
+| `stk_file1` | varchar(64) | Đường dẫn file đính kèm. |
+| `stk_start` | int(11) | Số lượng tồn kho đầu kỳ. |
+| `stk_time` | datetime | Datetime cập nhật tồn kho gần nhất. |
+| `stk_tank` | int(11) | Dung tích thùng / bể chứa. |
+| `stk_tana` | varchar(32) | Vị trí kệ / nơi lưu trữ. |
+| `stk_eq_id` | int(11) | ID thiết bị liên quan (app-FK → `a_equips.eq_id`). |
+| `stk_eq_names` | blob | Blob tên thiết bị liên quan (denormalized). |
+
+---
+
+## a_tana
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Bản ghi kiểm kê vật lý (棚卸). Mỗi row là một lần quét thiết bị theo năm tài chính (`nendo`). Ghi nhận xác minh vật lý sự tồn tại của thiết bị. Hỗ trợ RFID qua cột `epc`.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Phần của composite PK. |
+| `s_code` | varchar(32) NOT NULL | Mã thiết bị quét được. Phần của composite PK. |
+| `read_date` | date | Ngày đọc / quét. |
+| `s_name` | varchar(32) | Tên thiết bị. |
+| `s_area` | varchar(32) | Khu vực đặt thiết bị. |
+| `tana_kumi` | varchar(32) | Nhóm / tổ kiểm kê. |
+| `s_sect` | varchar(32) | Bộ phận. |
+| `s_stf` | varchar(16) | Mã nhân viên phụ trách. |
+| `s_cmt` | varchar(64) | Ghi chú kiểm kê. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `create_stf` | smallint(6) | ID nhân viên tạo bản ghi. |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+| `read_flg` | tinyint(1) | Cờ đã đọc / quét. |
+| `mat_mcno_ok` | tinyint(1) | Cờ xác nhận số model máy khớp. |
+| `kumi_ok` | tinyint(1) | Cờ xác nhận nhóm / tổ khớp. |
+| `tgt_flg` | tinyint(1) | Cờ đánh dấu là đối tượng kiểm kê. |
+| `m_eqv12` | varchar(32) | Giá trị trường tùy chỉnh thiết bị 12 (snapshot). |
+| `m_mat_nensiki` | varchar(8) | Năm sản xuất (snapshot). |
+| `m_eq_id` | int(11) | ID thiết bị (app-FK → `a_equips.eq_id`). |
+| `nendo` | varchar(6) NOT NULL | Năm tài chính. Phần của composite PK. |
+| `upload_time` | int(11) | Unix timestamp lần upload. |
+| `epc` | varchar(32) | Mã EPC của thẻ RFID. |
+| `a_stf` | varchar(16) | Mã nhân viên khu vực. |
+| `stf_ok` | char(1) | Cờ xác nhận nhân viên. |
+| `m_adm` | varchar(16) | Mã quản trị viên (snapshot). |
+| `tck` | tinyint(1) | Cờ kiểm tra xác nhận. |
+| `ck_stf` | smallint(6) | ID nhân viên xác nhận. |
+| `tn_sid` | bigint(20) unsigned AUTO_INCREMENT | ID row duy nhất toàn cầu. |
+| `s_area_flg` | tinyint(1) | Cờ xác nhận khu vực khớp. |
+
+---
+
+## ads_master
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Master giá trị dropdown theo tenant. Khác với `datamaster` (dùng chung toàn hệ thống), `ads_master` lưu danh sách dropdown riêng cho từng tenant. Các hạng mục có thể ẩn qua `ishidden`.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Phần của composite PK. |
+| `propid` | varchar(16) NOT NULL | Định danh danh sách / thuộc tính. Phần của composite PK. |
+| `itid` | smallint(6) NOT NULL | Mã item trong danh sách. Phần của composite PK. |
+| `itname` | varchar(32) | Tên hiển thị item. |
+| `disporder` | smallint(6) | Thứ tự hiển thị. |
+| `ishidden` | tinyint(1) | Cờ ẩn. `1` = ẩn khỏi dropdown. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `stf_id` | smallint(6) NOT NULL | ID nhân viên sửa đổi lần cuối. |
+| `create_date` | datetime | Datetime tạo row. |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+
+---
+
+## bk_idmaster
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Bộ cấp ID tuần tự cấp ứng dụng. Lưu giá trị ID khả dụng tiếp theo cho các loại thực thể khác nhau theo từng tenant. `p_name` xác định loại thực thể, `p_val` chứa giá trị tiếp theo.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | int(11) NOT NULL | Khóa phân vùng tenant. Composite PK với `p_name`. |
+| `p_name` | varchar(16) NOT NULL | Tên loại thực thể (ví dụ `'eq_id'`, `'mt_id'`). |
+| `p_val` | int(11) | Giá trị ID khả dụng tiếp theo. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+
+---
+
+## busareas
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Phân công công ty ↔ khu vực. Bảng MyISAM legacy liên kết công ty tenant với mã khu vực. Không có primary key.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bcid` | int(11) | ID công ty (app-FK → `buscomps.bcid`). |
+| `areaid` | smallint(6) | Mã khu vực được phân công. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+
+---
+
+## bustypengdays
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Ngày không khả dụng (NG) theo loại kinh doanh. Bảng MyISAM legacy ghi nhận ngày bị chặn / không khả dụng theo loại kinh doanh. Dùng trong bối cảnh lập lịch / hoạch định năng lực.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bcid` | int(11) NOT NULL | ID công ty (app-FK → `buscomps.bcid`). Phần của composite PK. |
+| `ngdate` | date NOT NULL | Ngày không khả dụng. Phần của composite PK. |
+| `btype` | smallint(6) NOT NULL | Mã loại kinh doanh. Phần của composite PK. |
+| `daisu` | smallint(6) | Số lượng (thiết bị / đơn vị) bị ảnh hưởng. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+
+---
+
+## calendars
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Sự kiện lịch / ghi chú theo tenant. Lưu nhận xét theo từng ngày cho mỗi tenant. Dùng kết hợp với `holidays` (toàn hệ thống) để chú thích lịch.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | int(11) NOT NULL | Khóa phân vùng tenant. Composite PK với `date`. |
+| `date` | date NOT NULL | Ngày sự kiện (PK). |
+| `cmt` | varchar(128) | Nhận xét / ghi chú cho ngày. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+
+---
+
+## loginhist
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Nhật ký kiểm toán đăng nhập / đăng xuất. Ghi nhận mọi sự kiện xác thực với thời gian, IP remote, ID nhân viên, và cờ API.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `histid` | bigint(20) unsigned AUTO_INCREMENT | ID bản ghi lịch sử (PK). |
+| `bkid` | smallint(6) | Khóa phân vùng tenant. |
+| `stf_id` | smallint(6) | ID nhân viên đăng nhập. |
+| `logout` | char(1) | Cờ đăng xuất. `'0'` = đăng nhập, `'1'` = đăng xuất. |
+| `acstime` | datetime | Thời gian sự kiện xác thực. |
+| `rip` | varchar(32) | Địa chỉ IP remote. |
+| `is_api` | tinyint(1) | Cờ API. `1` = đăng nhập qua API. |
+
+---
+
+## mail_master
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Master người nhận email. Lưu địa chỉ email cho người nhận thông báo theo tenant, liên kết với mã nhân viên (`sya_id` → `syain_master`).
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Composite PK với `email`. |
+| `email` | varchar(64) NOT NULL | Địa chỉ email (business PK). |
+| `sya_id` | varchar(16) | Mã nhân viên liên kết (app-FK → `syain_master.sya_id`). |
+| `sya_name` | varchar(16) | Tên nhân viên (denormalized). |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `create_stf` | smallint(6) | ID nhân viên tạo bản ghi. |
+| `ishidden` | tinyint(1) | Cờ ẩn. `1` = ẩn khỏi danh sách. |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+
+---
+
+## myview
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Lịch bảo trì được đánh dấu cá nhân. Cho phép nhân viên đánh dấu các mục lịch bảo trì cụ thể để truy cập nhanh trong chế độ xem cá nhân.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Composite PK với `mts_uid`. |
+| `mts_uid` | int(11) NOT NULL | ID instance lịch (app-FK → `a_mtsch.mts_uid`). |
+| `stf_id` | smallint(6) | ID nhân viên đánh dấu. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `name` | varchar(32) | Tên hiển thị / nhãn bookmark. |
+
+---
+
+## p_item
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Master hạng mục mua sắm (module CAPEX). Định nghĩa các hạng mục có thể mua sắm với đơn giá, tổng giá, số phiếu, danh mục kế toán, số phê duyệt liên kết. Là một phần của quy trình mua sắm theo dự án.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Composite PK với `item_id`. |
+| `p_name` | varchar(64) | Tên hạng mục mua sắm. |
+| `p_tanka` | bigint(20) | Đơn giá. |
+| `p_price` | bigint(20) | Tổng giá. |
+| `den_ban` | varchar(32) | Số phiếu / chứng từ. |
+| `keiri_kbn` | varchar(4) | Mã danh mục kế toán. |
+| `p_kind` | varchar(4) | Mã loại hạng mục. |
+| `p_num` | varchar(16) | Số đơn hàng liên kết (app-FK → `p_purchase.p_num`). |
+| `rin_ban` | varchar(32) | Số phê duyệt liên kết (app-FK → `p_ringi.rin_ban`). |
+| `p_date` | date | Ngày mua sắm. |
+| `mk_id` | varchar(16) | Mã nhà sản xuất (app-FK → `a_maker.mk_id`). |
+| `fc_id` | varchar(16) | Mã nhà máy (app-FK → `a_factory.fc_id`). |
+| `sya_id` | varchar(16) | Mã nhân viên phụ trách (app-FK → `syain_master.sya_id`). |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `modify_sid` | varchar(16) | Mã nhân viên sửa đổi. |
+| `create_sid` | varchar(16) | Mã nhân viên tạo. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `in_num` | smallint(6) | Số lượng nhập. |
+| `out_num` | smallint(6) | Số lượng xuất. |
+| `item_id` | int(11) NOT NULL | ID hạng mục (business PK). |
+| `item_name` | varchar(64) | Tên hạng mục (nhãn phụ). |
+| `stf_id` | varchar(16) | ID nhân viên phụ trách. |
+| `item_bikou` | varchar(255) | Ghi chú hạng mục. |
+| `item_unit` | varchar(2) | Đơn vị tính. |
+| `partkbn` | varchar(4) | Mã phân loại linh kiện. |
+| `rem_num` | smallint(6) | Số lượng còn lại. |
+| `acd` | smallint(6) | Mã tài khoản. |
+| `pi_del` | tinyint(1) | Cờ xóa mềm. `1` = đã xóa. |
+| `mk_id1` | varchar(16) | Mã nhà sản xuất phụ 1. |
+| `mk_id2` | varchar(16) | Mã nhà sản xuất phụ 2. |
+| `cost1` | bigint(20) | Chi phí phụ 1. |
+| `cost2` | bigint(20) | Chi phí phụ 2. |
+| `siyousaki` | varchar(64) | Nơi sử dụng / đích đến. |
+| `si_ids` | varchar(255) | Danh sách ID tài sản liên kết (cách nhau bằng dấu phẩy). |
+| `line_id` | varchar(8) | Mã dây chuyền (app-FK → `a_line.line_id`). |
+
+---
+
+## p_mente
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Bản ghi bảo trì dự án (module CAPEX). Theo dõi các sự kiện bảo trì / sửa chữa liên kết với dự án và tài sản.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Composite PK với `pm_id`. |
+| `pm_id` | int(11) NOT NULL | ID bản ghi bảo trì (business PK). |
+| `p_id` | int(11) | ID đơn hàng liên kết. |
+| `pp_id` | int(11) | ID dự án phụ liên kết. |
+| `pm_date` | date | Ngày bảo trì. |
+| `pm_price` | int(11) | Chi phí bảo trì. |
+| `mk_id` | varchar(16) | Mã nhà sản xuất (app-FK → `a_maker.mk_id`). |
+| `pm_naiyou` | text | Nội dung công việc bảo trì. |
+| `pm_bikou` | text | Ghi chú bảo trì. |
+| `sya_id` | varchar(16) | Mã nhân viên phụ trách (app-FK → `syain_master.sya_id`). |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `modify_sid` | varchar(16) | Mã nhân viên sửa đổi. |
+| `create_sid` | varchar(16) | Mã nhân viên tạo. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `si_id` | int(11) | ID tài sản liên kết (app-FK → `p_sisan.si_id`). |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+| `m_file1` | varchar(64) | Đường dẫn file đính kèm 1. |
+| `m_file2` | varchar(64) | Đường dẫn file đính kèm 2. |
+| `pm_del` | tinyint(1) | Cờ xóa mềm. `1` = đã xóa. |
+| `pm_mdate` | date | Ngày bảo trì phụ. |
+| `r_si_bans` | varchar(32) | Số tài sản liên kết. |
+| `r_rin_bans` | varchar(32) | Số phê duyệt liên kết. |
+| `r_p_nums` | varchar(32) | Số đơn hàng liên kết. |
+| `line_id` | varchar(8) | Mã dây chuyền (app-FK → `a_line.line_id`). |
+
+---
+
+## p_proj
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Master dự án (module CAPEX). Thực thể cấp cao nhất cho dự án chi phí vốn. Lưu tên dự án, ngân sách, nhà máy, và số lượng tổng hợp phê duyệt, mua sắm, và tài sản liên kết. Xóa mềm qua `is_del`.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Composite PK với `prj_id`. |
+| `prj_id` | int(11) NOT NULL | ID dự án (business PK). |
+| `prj_name` | varchar(64) | Tên dự án. |
+| `prj_price` | bigint(20) | Ngân sách dự án. |
+| `fc_id` | varchar(16) | Mã nhà máy (app-FK → `a_factory.fc_id`). |
+| `sya_id` | varchar(16) | Mã nhân viên phụ trách (app-FK → `syain_master.sya_id`). |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `modify_sid` | varchar(16) | Mã nhân viên sửa đổi. |
+| `create_sid` | varchar(16) | Mã nhân viên tạo. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `prj_date` | date | Ngày dự án. |
+| `is_del` | tinyint(1) | Cờ xóa mềm. `1` = đã xóa. |
+| `dm1`–`dm5` | varchar(32) ×5 | Trường dữ liệu tùy chỉnh 1–5. |
+| `ringi` | text | Dữ liệu phê duyệt liên kết (blob). |
+| `purchase` | text | Dữ liệu mua sắm liên kết (blob). |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+| `rin_num` | smallint(6) | Số lượng phê duyệt liên kết. |
+| `rin_fin` | smallint(6) | Số phê duyệt đã hoàn thành. |
+| `rin_qty` | smallint(6) | Tổng số phê duyệt. |
+| `p_qty` | smallint(6) | Tổng số đơn hàng. |
+| `p_fin` | smallint(6) | Số đơn hàng đã hoàn thành. |
+| `sisan` | text | Dữ liệu tài sản liên kết (blob). |
+| `sisan_txt` | varchar(255) | Tóm tắt tài sản (denormalized). |
+| `purchase_txt` | varchar(512) | Tóm tắt mua sắm (denormalized). |
+| `ringi_txt` | varchar(255) | Tóm tắt phê duyệt (denormalized). |
+| `pb_qty` | smallint(6) | Số lượng phiếu thanh toán. |
+| `k_qty` | smallint(6) | Số lượng kiểm tra. |
+| `si_qty` | smallint(6) | Số lượng tài sản. |
+| `r_file` | tinyint(1) | Cờ có file phê duyệt đính kèm. |
+| `p_file` | tinyint(1) | Cờ có file mua sắm đính kèm. |
+| `line_id` | varchar(8) | Mã dây chuyền (app-FK → `a_line.line_id`). |
+| `nouhin_fin` | smallint(6) | Số giao hàng đã hoàn thành. |
+| `rmk_txt` | varchar(255) | Tóm tắt ghi chú (denormalized). |
+| `siban_txt` | varchar(512) | Tóm tắt số tài sản (denormalized). |
+| `p_price` | bigint(20) | Tổng giá mua sắm thực tế. |
+
+---
+
+## p_purchase
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Đơn đặt hàng (module CAPEX). Đại diện cho một đơn đặt hàng liên kết với dự án. Lưu số đơn hàng, ngày, mô tả, tổng giá, nhà sản xuất, nhà máy, thông tin giao hàng, và tối đa năm file đính kèm. Xóa mềm qua `p_del`.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Composite PK với `p_num`. |
+| `p_id` | bigint(20) unsigned AUTO_INCREMENT | ID row duy nhất toàn cầu. |
+| `p_num` | varchar(16) NOT NULL | Số đơn hàng (business PK). |
+| `prj_id` | int(11) | ID dự án liên kết (app-FK → `p_proj.prj_id`). |
+| `p_date` | date | Ngày đặt hàng. |
+| `p_name` | varchar(64) | Tên / mô tả đơn hàng. |
+| `p_price` | bigint(20) | Tổng giá đơn hàng. |
+| `mk_id` | varchar(16) | Mã nhà sản xuất (app-FK → `a_maker.mk_id`). |
+| `fc_id` | varchar(16) | Mã nhà máy (app-FK → `a_factory.fc_id`). |
+| `sya_id` | varchar(16) | Mã nhân viên phụ trách (app-FK → `syain_master.sya_id`). |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `modify_sid` | varchar(16) | Mã nhân viên sửa đổi. |
+| `create_sid` | varchar(16) | Mã nhân viên tạo. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `d_date` | date | Ngày giao hàng. |
+| `k_date` | date | Ngày kiểm tra. |
+| `dai_id` | int(11) | ID đại lý. |
+| `sis_id` | varchar(16) | Mã tài sản liên kết. |
+| `sis_num` | varchar(16) | Số tài sản liên kết. |
+| `rin_ban` | varchar(16) | Số phê duyệt liên kết (app-FK → `p_ringi.rin_ban`). |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+| `paycon` | smallint(6) | Mã điều kiện thanh toán. |
+| `p_file1`–`p_file5` | varchar(64) ×5 | Đường dẫn file đính kèm (5 slot). |
+| `p_bikou` | text | Ghi chú đơn hàng. |
+| `p_reason` | text | Lý do mua sắm. |
+| `in_date` | date | Ngày nhập kho. |
+| `in_acd` | smallint(6) | Mã tài khoản nhập. |
+| `bunai_rin` | char(1) | Cờ phê duyệt nội bộ phòng ban. |
+| `s_date` | date | Ngày xuất hàng. |
+| `s_name` | varchar(64) | Tên hàng xuất. |
+| `s_bikou` | text | Ghi chú xuất hàng. |
+| `s_lot` | varchar(32) | Số lot xuất hàng. |
+| `pk_date` | date | Ngày đóng gói. |
+| `ck_flg` | tinyint(1) | Cờ đã kiểm tra. |
+| `p_del` | tinyint(1) | Cờ xóa mềm. `1` = đã xóa. |
+| `eq_id` | int(11) | ID thiết bị liên kết (app-FK → `a_equips.eq_id`). |
+| `nouhin_flg` | tinyint(1) | Cờ đã giao hàng. |
+| `line_id` | varchar(8) | Mã dây chuyền (app-FK → `a_line.line_id`). |
+
+---
+
+## p_puritem
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Dòng chi tiết đơn đặt hàng (module CAPEX). Các dòng chi tiết của đơn đặt hàng, khóa theo số dòng. Mỗi dòng có mô tả, đơn giá, số lượng, tổng tiền, và đơn vị.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Phần của composite PK. |
+| `p_num` | varchar(16) NOT NULL | Số đơn hàng (app-FK → `p_purchase.p_num`). Phần của composite PK. |
+| `gyo_no` | smallint(6) NOT NULL | Số dòng. Phần của composite PK. |
+| `p_ttl` | bigint(20) | Tổng tiền dòng. |
+| `p_qty` | int(11) | Số lượng. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+| `p_con` | varchar(64) | Mô tả nội dung dòng. |
+| `p_tan` | bigint(20) | Đơn giá. |
+| `p_uni` | varchar(4) | Đơn vị tính. |
+
+---
+
+## p_ringi
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Yêu cầu phê duyệt / 稟議 (module CAPEX). Yêu cầu phê duyệt chính thức cho chi phí vốn liên kết với dự án. Lưu số phê duyệt, số tiền, chi tiết kế toán, tối đa chín file đính kèm, và các chỉ số tài chính (hoàn vốn, NPV, IRR). Xóa mềm qua `r_del`.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Composite PK với `rin_ban`. |
+| `rin_id` | int(11) | ID phê duyệt (sequence). |
+| `rin_ban` | varchar(16) NOT NULL | Số phê duyệt (business PK). |
+| `rin_date` | date | Ngày nộp yêu cầu phê duyệt. |
+| `rin_kbn` | char(1) | Mã phân loại phê duyệt. |
+| `rin_title` | varchar(64) | Tiêu đề yêu cầu phê duyệt. |
+| `rin_price` | bigint(20) | Số tiền yêu cầu phê duyệt. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `fc_id` | varchar(16) | Mã nhà máy (app-FK → `a_factory.fc_id`). |
+| `modify_sid` | varchar(16) | Mã nhân viên sửa đổi. |
+| `create_sid` | varchar(16) | Mã nhân viên tạo. |
+| `sya_id` | varchar(16) | Mã nhân viên phụ trách (app-FK → `syain_master.sya_id`). |
+| `prj_id` | int(11) | ID dự án liên kết (app-FK → `p_proj.prj_id`). |
+| `rin_kei` | int(11) | Số tiền kế toán tích lũy. |
+| `is_del` | tinyint(1) | Cờ xóa mềm. `1` = đã xóa. |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+| `rin_sagaku` | bigint(20) | Chênh lệch so với dự toán. |
+| `rin_est` | bigint(20) | Số tiền dự toán. |
+| `stdno` | smallint(6) | Số tiêu chuẩn. |
+| `se_id` | smallint(6) | ID thiết lập. |
+| `setres` | smallint(6) | Kết quả thiết lập. |
+| `paycon` | smallint(6) | Mã điều kiện thanh toán. |
+| `r_file1`–`r_file9` | varchar(128) ×9 | Đường dẫn file đính kèm (9 slot). |
+| `se_date` | date | Ngày thiết lập. |
+| `rin_plan` | char(1) | Cờ kế hoạch phê duyệt. |
+| `do_date` | date | Ngày thực hiện. |
+| `plan_date` | date | Ngày kế hoạch. |
+| `rin_reason` | text | Lý do yêu cầu phê duyệt. |
+| `rin_bikou` | text | Ghi chú phê duyệt. |
+| `yos_id` | varchar(16) | Mã dự toán. |
+| `rmk_id` | varchar(16) | Mã ghi chú. |
+| `r_del` | tinyint(1) | Cờ xóa mềm bổ sung. `1` = đã xóa. |
+| `plan_keizoku` | tinyint(1) | Cờ kế hoạch tiếp tục. |
+| `kaisyu_y` | float | Số năm hoàn vốn. |
+| `npv` | float | Giá trị hiện tại ròng (NPV). |
+| `irr` | float | Tỷ suất hoàn vốn nội bộ (IRR). |
+
+---
+
+## p_rinitem
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Dòng chi tiết yêu cầu phê duyệt (module CAPEX). Các dòng chi tiết của yêu cầu phê duyệt, khóa theo số dòng. Mỗi dòng có nhà sản xuất, số tiền thanh toán, dự toán, mã tài sản, bảo hành, chủ đề, và ghi chú đặc biệt.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Phần của composite PK. |
+| `rin_ban` | varchar(16) NOT NULL | Số phê duyệt (app-FK → `p_ringi.rin_ban`). Phần của composite PK. |
+| `gyo_no` | smallint(6) NOT NULL | Số dòng. Phần của composite PK. |
+| `mk_id` | varchar(16) | Mã nhà sản xuất (app-FK → `a_maker.mk_id`). |
+| `p_pay` | int(11) | Số tiền thanh toán. |
+| `p_est` | int(11) | Số tiền dự toán. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+| `p_ass` | varchar(32) | Mã tài sản. |
+| `p_war` | varchar(32) | Thông tin bảo hành. |
+| `p_sbj` | varchar(32) | Chủ đề / hạng mục. |
+| `p_tok` | varchar(64) | Ghi chú đặc biệt. |
+
+---
+
+## p_sisan
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Sổ tài sản cố định (module CAPEX). Theo dõi từng tài sản cố định với số tài sản, tên, giá, danh mục kế toán, liên kết mua sắm/dự án, thông số kỹ thuật, thông tin thanh lý, và thời hạn sử dụng. Có thể liên kết đến master thiết bị qua `eq_id`. Xóa mềm qua `si_del`.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Composite PK với `si_id`. |
+| `si_id` | int(11) NOT NULL | ID tài sản (business PK). |
+| `p_name` | varchar(64) | Tên tài sản. |
+| `p_tanka` | int(11) | Đơn giá tài sản. |
+| `p_price` | int(11) | Tổng giá tài sản. |
+| `den_ban` | varchar(32) | Số phiếu / chứng từ. |
+| `keiri_kbn` | varchar(4) | Mã danh mục kế toán. |
+| `p_kind` | varchar(4) | Mã loại tài sản. |
+| `p_num` | varchar(16) | Số đơn hàng liên kết (app-FK → `p_purchase.p_num`). |
+| `rin_ban` | varchar(32) | Số phê duyệt liên kết (app-FK → `p_ringi.rin_ban`). |
+| `fc_id` | varchar(16) | Mã nhà máy (app-FK → `a_factory.fc_id`). |
+| `sya_id` | varchar(16) | Mã nhân viên phụ trách (app-FK → `syain_master.sya_id`). |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `modify_sid` | varchar(16) | Mã nhân viên sửa đổi. |
+| `create_sid` | varchar(16) | Mã nhân viên tạo. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `prj_id` | int(11) | ID dự án liên kết (app-FK → `p_proj.prj_id`). |
+| `si_ban` | varchar(32) | Số tài sản (mã thẻ). |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+| `si_stat` | smallint(6) | Mã trạng thái tài sản. |
+| `dai_ban` | varchar(16) | Số đại lý. |
+| `d_kind` | char(1) | Mã loại xử lý. |
+| `si_date` | date | Ngày ghi nhận tài sản. |
+| `nou_tan` | varchar(16) | Mã người phụ trách giao hàng. |
+| `eqkbn` | smallint(6) | Mã phân loại thiết bị. |
+| `acd1` | smallint(6) | Mã tài khoản 1. |
+| `acd2` | smallint(6) | Mã tài khoản 2. |
+| `typeid` | varchar(64) | Mã model / type. |
+| `serid` | varchar(64) | Số serial. |
+| `spec` | text | Thông số kỹ thuật. |
+| `si_bikou` | text | Ghi chú tài sản. |
+| `smk_id` | varchar(16) | Mã nhà sản xuất phụ. |
+| `nou_sya_id` | varchar(16) | Mã nhân viên giao hàng. |
+| `si_del` | tinyint(1) | Cờ xóa mềm. `1` = đã xóa. |
+| `ps_date` | date | Ngày bắt đầu thời hạn sử dụng. |
+| `pe_date` | date | Ngày kết thúc thời hạn sử dụng. |
+| `disposal` | varchar(64) | Thông tin thanh lý. |
+| `p_dai_ban` | varchar(16) | Số đại lý mua sắm. |
+| `eq_id` | int(11) | ID thiết bị liên kết (app-FK → `a_equips.eq_id`). |
+| `line_id` | varchar(8) | Mã dây chuyền (app-FK → `a_line.line_id`). |
+
+---
+
+## p_sisancode
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Master mã / thẻ tài sản (module CAPEX). Khóa bởi số tài sản, lưu dữ liệu thẻ tài sản vật lý: RFID, nhân viên phụ trách, ngày kiểm kê vật lý, phân công nhà máy.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Composite PK với `si_ban`. |
+| `si_ban` | varchar(32) NOT NULL | Số tài sản (business PK). |
+| `sya_id` | varchar(16) | Mã nhân viên phụ trách (app-FK → `syain_master.sya_id`). |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `modify_sid` | varchar(16) | Mã nhân viên sửa đổi. |
+| `create_sid` | varchar(16) | Mã nhân viên tạo. |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `sic_id` | int(11) | ID mã tài sản (sequence). |
+| `s_file1` | varchar(64) | Đường dẫn file đính kèm. |
+| `sic_date` | date | Ngày ghi nhận mã tài sản. |
+| `actual` | smallint(6) | Mã trạng thái thực tế. |
+| `rfid` | varchar(32) | Mã thẻ RFID. |
+| `tana_date` | date | Ngày kiểm kê vật lý. |
+| `s_fc_id` | varchar(16) | Mã nhà máy phân công (app-FK → `a_factory.fc_id`). |
+
+---
+
+## staff
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Tài khoản super-admin (zaikodb). Tách biệt với `bk_staff` của tenant — đây là tài khoản quản trị viên cấp hệ thống cho `/padmin/`. Không có `bkid` — không thuộc phạm vi tenant.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `login` | varchar(16) | Tên đăng nhập admin. |
+| `passwd` | varchar(32) | Mật khẩu đăng nhập (plain text). |
+| `email` | varchar(64) | Địa chỉ email admin. |
+| `level` | smallint(6) | Mã cấp quyền. |
+| `name` | varchar(64) | Tên hiển thị admin. |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `stf_id` | bigint(20) unsigned AUTO_INCREMENT | ID admin (PK). |
+| `is_del` | tinyint(1) | Cờ xóa mềm. `1` = đã xóa. |
+
+---
+
+## syain_master
+
+*Được dùng tại: (nhiều trang)*
+
+**Vai trò:** Master công nhân / nhân viên vận hành (社員マスター). Lưu nhân viên tại hiện trường — có thể không có tài khoản đăng nhập hệ thống. Được module bảo trì, mua sắm, và thông báo email tham chiếu.
+
+| Cột | Kiểu | Mục đích |
+| --- | --- | --- |
+| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Composite PK với `sya_id`. |
+| `sya_id` | varchar(16) NOT NULL | Mã nhân viên (business PK). |
+| `sya_name` | varchar(16) | Tên hiển thị nhân viên. |
+| `disporder` | smallint(6) | Thứ tự hiển thị. |
+| `ishidden` | tinyint(1) | Cờ ẩn. `1` = ẩn khỏi dropdown. |
+| `fc_id` | varchar(16) | Mã nhà máy (app-FK → `a_factory.fc_id`). |
+| `line_id` | varchar(8) | Mã dây chuyền (app-FK → `a_line.line_id`). |
+| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
+| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
+| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
+| `create_date` | datetime | Datetime tạo row. |
+| `sya_uid` | bigint(20) unsigned AUTO_INCREMENT | ID row duy nhất toàn cầu. |
+| `nodisp` | tinyint(1) | Cờ không hiển thị. `1` = ẩn trên tất cả màn hình. |
+| `sya_mail` | varchar(64) | Địa chỉ email nhân viên. |
 
 ---
