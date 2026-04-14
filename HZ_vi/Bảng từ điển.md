@@ -20,60 +20,60 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## Mục lục bảng
 
-| Bảng | Nhóm | Vai trò tóm tắt |
-| --- | --- | --- |
-| [[#a_equips]] | Chuỗi bảo trì cốt lõi | Master thiết bị |
-| [[#a_mtinfo]] | Chuỗi bảo trì cốt lõi | Kế hoạch bảo trì |
-| [[#a_mtsch]] | Chuỗi bảo trì cốt lõi | Instance lịch bảo trì |
-| [[#a_mtres]] | Chuỗi bảo trì cốt lõi | Kết quả bảo trì |
-| [[#a_factory]] | Địa điểm / tổ chức | Master nhà máy |
-| [[#a_line]] | Địa điểm / tổ chức | Master dây chuyền |
-| [[#holidays]] | Hỗ trợ calendar | Danh sách ngày lễ |
-| [[#datamaster]] | Hỗ trợ calendar | Master giá trị dropdown |
-| [[#bk_infos]] | Widget trang | Thông báo theo tenant |
-| [[#infos]] | Widget trang | Thông báo toàn hệ thống |
-| [[#buscomps]] | Auth / session | Registry tenant (zaikodb) |
-| [[#bk_staff]] | Auth / session | Tài khoản nhân viên tenant |
-| [[#bkmasters]] | Auth / session | Cấu hình tenant |
-| [[#a_auths]] | Auth / session | Nhóm quyền tính năng |
-| [[#a_eqgroup]] | Auth / session | Master nhóm thiết bị |
-| [[#a_area]] | Địa điểm / tổ chức | Master khu vực |
-| [[#a_ckgroup]] | Kiểm tra / inspection | Master nhóm kiểm tra |
+| Bảng                  | Nhóm                  | Vai trò tóm tắt                                 |
+| --------------------- | --------------------- | ----------------------------------------------- |
+| [[#a_equips]]         | Chuỗi bảo trì cốt lõi | Master thiết bị                                 |
+| [[#a_mtinfo]]         | Chuỗi bảo trì cốt lõi | Kế hoạch bảo trì                                |
+| [[#a_mtsch]]          | Chuỗi bảo trì cốt lõi | Instance lịch bảo trì                           |
+| [[#a_mtres]]          | Chuỗi bảo trì cốt lõi | Kết quả bảo trì                                 |
+| [[#a_factory]]        | Địa điểm / tổ chức    | Master nhà máy                                  |
+| [[#a_line]]           | Địa điểm / tổ chức    | Master dây chuyền                               |
+| [[#holidays]]         | Hỗ trợ calendar       | Danh sách ngày lễ                               |
+| [[#datamaster]]       | Hỗ trợ calendar       | Master giá trị dropdown                         |
+| [[#bk_infos]]         | Widget trang          | Thông báo theo tenant                           |
+| [[#infos]]            | Widget trang          | Thông báo toàn hệ thống                         |
+| [[#buscomps]]         | Auth / session        | Registry tenant (zaikodb)                       |
+| [[#bk_staff]]         | Auth / session        | Tài khoản nhân viên tenant                      |
+| [[#bkmasters]]        | Auth / session        | Cấu hình tenant                                 |
+| [[#a_auths]]          | Auth / session        | Nhóm quyền tính năng                            |
+| [[#a_eqgroup]]        | Auth / session        | Master nhóm thiết bị                            |
+| [[#a_area]]           | Địa điểm / tổ chức    | Master khu vực                                  |
+| [[#a_ckgroup]]        | Kiểm tra / inspection | Master nhóm kiểm tra                            |
 | [[#a_ckgroup_detail]] | Kiểm tra / inspection | Bảng liên kết nhóm kiểm tra ↔ hạng mục kiểm tra |
-| [[#a_ckitem]] | Kiểm tra / inspection | Master hạng mục kiểm tra |
-| [[#a_eqgroup_detail]] | Thiết bị | Bảng liên kết nhóm thiết bị ↔ trường tùy chỉnh |
-| [[#a_eqhist]] | Thiết bị | Lịch sử thay đổi thiết bị |
-| [[#a_eqitem]] | Thiết bị | Master trường tùy chỉnh thiết bị |
-| [[#a_eqpoint]] | Thiết bị | Master điểm kiểm tra thiết bị |
-| [[#a_eqstocks]] | Thiết bị | Bảng liên kết thiết bị ↔ tồn kho |
-| [[#a_equips_detail]] | Thiết bị | Giá trị trường tùy chỉnh thiết bị |
-| [[#a_floor]] | Địa điểm / tổ chức | Master tầng |
-| [[#a_files]] | Quản lý file | Đăng ký file đính kèm tổng quát |
-| [[#a_mailtmpl]] | Email / thông báo | Master mẫu email |
-| [[#mail_master]] | Email / thông báo | Master người nhận email |
-| [[#a_maker]] | Nhà sản xuất | Master nhà sản xuất / nhà cung cấp |
-| [[#a_mtbf]] | Độ tin cậy | Chỉ số MTBF / MTTR |
-| [[#a_rent]] | Cho thuê | Bản ghi cho thuê / mượn thiết bị |
-| [[#a_stocks]] | Tồn kho / kiểm kê | Master tồn kho / phụ tùng |
-| [[#a_tana]] | Tồn kho / kiểm kê | Bản ghi kiểm kê vật lý (棚卸) |
-| [[#ads_master]] | Master dữ liệu | Master giá trị dropdown theo tenant |
-| [[#bk_idmaster]] | Master dữ liệu | Bộ cấp ID tuần tự |
-| [[#calendars]] | Calendar / lịch | Sự kiện lịch theo tenant |
-| [[#myview]] | Calendar / lịch | Lịch bảo trì được đánh dấu cá nhân |
-| [[#busareas]] | Auth / quản trị | Phân công công ty ↔ khu vực |
-| [[#bustypengdays]] | Auth / quản trị | Ngày không khả dụng theo loại kinh doanh |
-| [[#loginhist]] | Auth / quản trị | Nhật ký đăng nhập / đăng xuất |
-| [[#staff]] | Auth / quản trị | Tài khoản super-admin (zaikodb) |
-| [[#p_item]] | CAPEX / mua sắm | Master hạng mục mua sắm |
-| [[#p_mente]] | CAPEX / mua sắm | Bản ghi bảo trì dự án |
-| [[#p_proj]] | CAPEX / mua sắm | Master dự án |
-| [[#p_purchase]] | CAPEX / mua sắm | Đơn đặt hàng |
-| [[#p_puritem]] | CAPEX / mua sắm | Dòng chi tiết đơn đặt hàng |
-| [[#p_ringi]] | CAPEX / mua sắm | Yêu cầu phê duyệt (稟議) |
-| [[#p_rinitem]] | CAPEX / mua sắm | Dòng chi tiết yêu cầu phê duyệt |
-| [[#p_sisan]] | CAPEX / mua sắm | Sổ tài sản cố định |
-| [[#p_sisancode]] | CAPEX / mua sắm | Master mã / thẻ tài sản |
-| [[#syain_master]] | Nhân viên | Master công nhân / nhân viên vận hành |
+| [[#a_ckitem]]         | Kiểm tra / inspection | Master hạng mục kiểm tra                        |
+| [[#a_eqgroup_detail]] | Thiết bị              | Bảng liên kết nhóm thiết bị ↔ trường tùy chỉnh  |
+| [[#a_eqhist]]         | Thiết bị              | Lịch sử thay đổi thiết bị                       |
+| [[#a_eqitem]]         | Thiết bị              | Master trường tùy chỉnh thiết bị                |
+| [[#a_eqpoint]]        | Thiết bị              | Master điểm kiểm tra thiết bị                   |
+| [[#a_eqstocks]]       | Thiết bị              | Bảng liên kết thiết bị ↔ tồn kho                |
+| [[#a_equips_detail]]  | Thiết bị              | Giá trị trường tùy chỉnh thiết bị               |
+| [[#a_floor]]          | Địa điểm / tổ chức    | Master tầng                                     |
+| [[#a_files]]          | Quản lý file          | Đăng ký file đính kèm tổng quát                 |
+| [[#a_mailtmpl]]       | Email / thông báo     | Master mẫu email                                |
+| [[#mail_master]]      | Email / thông báo     | Master người nhận email                         |
+| [[#a_maker]]          | Nhà sản xuất          | Master nhà sản xuất / nhà cung cấp              |
+| [[#a_mtbf]]           | Độ tin cậy            | Chỉ số MTBF / MTTR                              |
+| [[#a_rent]]           | Cho thuê              | Bản ghi cho thuê / mượn thiết bị                |
+| [[#a_stocks]]         | Tồn kho / kiểm kê     | Master tồn kho / phụ tùng                       |
+| [[#a_tana]]           | Tồn kho / kiểm kê     | Bản ghi kiểm kê vật lý (棚卸)                     |
+| [[#ads_master]]       | Master dữ liệu        | Master giá trị dropdown theo tenant             |
+| [[#bk_idmaster]]      | Master dữ liệu        | Bộ cấp ID tuần tự                               |
+| [[#calendars]]        | Calendar / lịch       | Sự kiện lịch theo tenant                        |
+| [[#myview]]           | Calendar / lịch       | Lịch bảo trì được đánh dấu cá nhân              |
+| [[#busareas]]         | Auth / quản trị       | Phân công công ty ↔ khu vực                     |
+| [[#bustypengdays]]    | Auth / quản trị       | Ngày không khả dụng theo loại kinh doanh        |
+| [[#loginhist]]        | Auth / quản trị       | Nhật ký đăng nhập / đăng xuất                   |
+| [[#staff]]            | Auth / quản trị       | Tài khoản super-admin (zaikodb)                 |
+| [[#p_item]]           | CAPEX / mua sắm       | Master hạng mục mua sắm                         |
+| [[#p_mente]]          | CAPEX / mua sắm       | Bản ghi bảo trì dự án                           |
+| [[#p_proj]]           | CAPEX / mua sắm       | Master dự án                                    |
+| [[#p_purchase]]       | CAPEX / mua sắm       | Đơn đặt hàng                                    |
+| [[#p_puritem]]        | CAPEX / mua sắm       | Dòng chi tiết đơn đặt hàng                      |
+| [[#p_ringi]]          | CAPEX / mua sắm       | Yêu cầu phê duyệt (稟議)                          |
+| [[#p_rinitem]]        | CAPEX / mua sắm       | Dòng chi tiết yêu cầu phê duyệt                 |
+| [[#p_sisan]]          | CAPEX / mua sắm       | Sổ tài sản cố định                              |
+| [[#p_sisancode]]      | CAPEX / mua sắm       | Master mã / thẻ tài sản                         |
+| [[#syain_master]]     | Nhân viên             | Master công nhân / nhân viên vận hành           |
 
 ---
 
@@ -1383,49 +1383,49 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 **Vai trò:** Sổ tài sản cố định (module CAPEX). Theo dõi từng tài sản cố định với số tài sản, tên, giá, danh mục kế toán, liên kết mua sắm/dự án, thông số kỹ thuật, thông tin thanh lý, và thời hạn sử dụng. Có thể liên kết đến master thiết bị qua `eq_id`. Xóa mềm qua `si_del`.
 
-| Cột | Kiểu | Mục đích |
-| --- | --- | --- |
-| `bkid` | smallint(6) NOT NULL | Khóa phân vùng tenant. Composite PK với `si_id`. |
-| `si_id` | int(11) NOT NULL | ID tài sản (business PK). |
-| `p_name` | varchar(64) | Tên tài sản. |
-| `p_tanka` | int(11) | Đơn giá tài sản. |
-| `p_price` | int(11) | Tổng giá tài sản. |
-| `den_ban` | varchar(32) | Số phiếu / chứng từ. |
-| `keiri_kbn` | varchar(4) | Mã danh mục kế toán. |
-| `p_kind` | varchar(4) | Mã loại tài sản. |
-| `p_num` | varchar(16) | Số đơn hàng liên kết (app-FK → `p_purchase.p_num`). |
-| `rin_ban` | varchar(32) | Số phê duyệt liên kết (app-FK → `p_ringi.rin_ban`). |
-| `fc_id` | varchar(16) | Mã nhà máy (app-FK → `a_factory.fc_id`). |
-| `sya_id` | varchar(16) | Mã nhân viên phụ trách (app-FK → `syain_master.sya_id`). |
-| `modify_date` | datetime | Datetime sửa đổi gần nhất. |
-| `create_date` | datetime | Datetime tạo row. |
-| `modify_sid` | varchar(16) | Mã nhân viên sửa đổi. |
-| `create_sid` | varchar(16) | Mã nhân viên tạo. |
-| `uptime` | int(11) | Unix timestamp lần cập nhật cuối. |
-| `prj_id` | int(11) | ID dự án liên kết (app-FK → `p_proj.prj_id`). |
-| `si_ban` | varchar(32) | Số tài sản (mã thẻ). |
-| `stf_id` | smallint(6) | ID nhân viên sửa đổi lần cuối. |
-| `si_stat` | smallint(6) | Mã trạng thái tài sản. |
-| `dai_ban` | varchar(16) | Số đại lý. |
-| `d_kind` | char(1) | Mã loại xử lý. |
-| `si_date` | date | Ngày ghi nhận tài sản. |
-| `nou_tan` | varchar(16) | Mã người phụ trách giao hàng. |
-| `eqkbn` | smallint(6) | Mã phân loại thiết bị. |
-| `acd1` | smallint(6) | Mã tài khoản 1. |
-| `acd2` | smallint(6) | Mã tài khoản 2. |
-| `typeid` | varchar(64) | Mã model / type. |
-| `serid` | varchar(64) | Số serial. |
-| `spec` | text | Thông số kỹ thuật. |
-| `si_bikou` | text | Ghi chú tài sản. |
-| `smk_id` | varchar(16) | Mã nhà sản xuất phụ. |
-| `nou_sya_id` | varchar(16) | Mã nhân viên giao hàng. |
-| `si_del` | tinyint(1) | Cờ xóa mềm. `1` = đã xóa. |
-| `ps_date` | date | Ngày bắt đầu thời hạn sử dụng. |
-| `pe_date` | date | Ngày kết thúc thời hạn sử dụng. |
-| `disposal` | varchar(64) | Thông tin thanh lý. |
-| `p_dai_ban` | varchar(16) | Số đại lý mua sắm. |
-| `eq_id` | int(11) | ID thiết bị liên kết (app-FK → `a_equips.eq_id`). |
-| `line_id` | varchar(8) | Mã dây chuyền (app-FK → `a_line.line_id`). |
+| Cột           | Kiểu                 | Mục đích                                                 |
+| ------------- | -------------------- | -------------------------------------------------------- |
+| `bkid`        | smallint(6) NOT NULL | Khóa phân vùng tenant. Composite PK với `si_id`.         |
+| `si_id`       | int(11) NOT NULL     | ID tài sản (business PK).                                |
+| `p_name`      | varchar(64)          | Tên tài sản.                                             |
+| `p_tanka`     | int(11)              | Đơn giá tài sản.                                         |
+| `p_price`     | int(11)              | Tổng giá tài sản.                                        |
+| `den_ban`     | varchar(32)          | Số phiếu / chứng từ.                                     |
+| `keiri_kbn`   | varchar(4)           | Mã danh mục kế toán.                                     |
+| `p_kind`      | varchar(4)           | Mã loại tài sản.                                         |
+| `p_num`       | varchar(16)          | Số đơn hàng liên kết (app-FK → `p_purchase.p_num`).      |
+| `rin_ban`     | varchar(32)          | Số phê duyệt liên kết (app-FK → `p_ringi.rin_ban`).      |
+| `fc_id`       | varchar(16)          | Mã nhà máy (app-FK → `a_factory.fc_id`).                 |
+| `sya_id`      | varchar(16)          | Mã nhân viên phụ trách (app-FK → `syain_master.sya_id`). |
+| `modify_date` | datetime             | Datetime sửa đổi gần nhất.                               |
+| `create_date` | datetime             | Datetime tạo row.                                        |
+| `modify_sid`  | varchar(16)          | Mã nhân viên sửa đổi.                                    |
+| `create_sid`  | varchar(16)          | Mã nhân viên tạo.                                        |
+| `uptime`      | int(11)              | Unix timestamp lần cập nhật cuối.                        |
+| `prj_id`      | int(11)              | ID dự án liên kết (app-FK → `p_proj.prj_id`).            |
+| `si_ban`      | varchar(32)          | Số tài sản (mã thẻ).                                     |
+| `stf_id`      | smallint(6)          | ID nhân viên sửa đổi lần cuối.                           |
+| `si_stat`     | smallint(6)          | Mã trạng thái tài sản.                                   |
+| `dai_ban`     | varchar(16)          | Số đại lý.                                               |
+| `d_kind`      | char(1)              | Mã loại xử lý.                                           |
+| `si_date`     | date                 | Ngày ghi nhận tài sản.                                   |
+| `nou_tan`     | varchar(16)          | Mã người phụ trách giao hàng.                            |
+| `eqkbn`       | smallint(6)          | Mã phân loại thiết bị.                                   |
+| `acd1`        | smallint(6)          | Mã tài khoản 1.                                          |
+| `acd2`        | smallint(6)          | Mã tài khoản 2.                                          |
+| `typeid`      | varchar(64)          | Mã model / type.                                         |
+| `serid`       | varchar(64)          | Số serial.                                               |
+| `spec`        | text                 | Thông số kỹ thuật.                                       |
+| `si_bikou`    | text                 | Ghi chú tài sản.                                         |
+| `smk_id`      | varchar(16)          | Mã nhà sản xuất phụ.                                     |
+| `nou_sya_id`  | varchar(16)          | Mã nhân viên giao hàng.                                  |
+| `si_del`      | tinyint(1)           | Cờ xóa mềm. `1` = đã xóa.                                |
+| `ps_date`     | date                 | Ngày bắt đầu thời hạn sử dụng.                           |
+| `pe_date`     | date                 | Ngày kết thúc thời hạn sử dụng.                          |
+| `disposal`    | varchar(64)          | Thông tin thanh lý.                                      |
+| `p_dai_ban`   | varchar(16)          | Số đại lý mua sắm.                                       |
+| `eq_id`       | int(11)              | ID thiết bị liên kết (app-FK → `a_equips.eq_id`).        |
+| `line_id`     | varchar(8)           | Mã dây chuyền (app-FK → `a_line.line_id`).               |
 
 ---
 
