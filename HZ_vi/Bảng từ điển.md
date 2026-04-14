@@ -81,7 +81,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_equips
 
-*Được dùng tại: [[Lịch bảo trì#Chuỗi bảo trì cốt lõi|Lịch bảo trì (VI)]]*
 
 **Vai trò:** Master thiết bị. Mỗi row là một thiết bị vật lý thuộc một tenant. Lưu tên, vị trí (nhà máy/dây chuyền), nhóm thiết bị, thông số máy, và tối đa 16 trường tùy chỉnh. Xóa mềm qua `del_flg` — các row bị xóa được ẩn trên tất cả màn hình nhưng vẫn được giữ trong database.
 
@@ -118,7 +117,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_mtinfo
 
-*Được dùng tại: [[Lịch bảo trì#Chuỗi bảo trì cốt lõi|Lịch bảo trì (VI)]]*
 
 **Vai trò:** Kế hoạch bảo trì. Mỗi row là một nhiệm vụ bảo trì gắn với một thiết bị. Lưu tên nhiệm vụ, loại, cửa sổ kế hoạch, chi phí dự kiến, và tối đa 19 file đính kèm. Cột `sc_kbn` phân biệt BT định kỳ với quy trình báo giá/phát hành phiếu.
 
@@ -170,7 +168,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_mtsch
 
-*Được dùng tại: [[Lịch bảo trì#Chuỗi bảo trì cốt lõi|Lịch bảo trì (VI)]]*
 
 **Vai trò:** Instance lịch bảo trì. Mỗi row là một lần thực hiện cụ thể của một kế hoạch (`mt_id` + `sdate`). Đây là **nguồn sự thật duy nhất cho tất cả icon trên calendar** của `sch.php`. Lưu cửa sổ thực hiện (`s_date`/`e_date`), cờ hoàn thành (`mtr_done`), và bốn cột ngày điều khiển icon Path B.
 
@@ -199,7 +196,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_mtres
 
-*Được dùng tại: [[Lịch bảo trì#Chuỗi bảo trì cốt lõi|Lịch bảo trì (VI)]]*
 
 **Vai trò:** Kết quả bảo trì. Mỗi row là kết quả của một instance lịch đã thực hiện (khóa bởi `mts_uid`). Lưu chi tiết công việc, tên nhân viên, ngày thực hiện thực tế, chi phí, và tối đa 15 file đính kèm. Trên `sch.php` bảng này được join qua LEFT JOIN chỉ để lấy dữ liệu hiển thị — **không điều khiển bất kỳ icon nào** trên calendar.
 
@@ -244,7 +240,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_factory
 
-*Được dùng tại: [[Lịch bảo trì#Phân cấp địa điểm / tổ chức|Lịch bảo trì (VI)]], [[Phân quyền master#Phân cấp địa điểm / tổ chức|Phân quyền master]]*
 
 **Vai trò:** Master nhà máy. Nhóm địa điểm cấp cao nhất. Mỗi thiết bị có `fc_id` là app-level FK trỏ vào bảng này. Dùng để populate dropdown lọc nhà máy trên `sch.php`.
 
@@ -265,7 +260,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_line
 
-*Được dùng tại: [[Lịch bảo trì#Phân cấp địa điểm / tổ chức|Lịch bảo trì (VI)]]*
 
 **Vai trò:** Master dây chuyền. Địa điểm con trong một nhà máy, khóa bởi `bkid + line_id + fc_id`. Dùng cho dropdown lọc dây chuyền và hiển thị như nhãn cột trong lưới calendar.
 
@@ -287,7 +281,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## holidays
 
-*Được dùng tại: [[Lịch bảo trì#Hỗ trợ hiển thị calendar|Lịch bảo trì (VI)]]*
 
 **Vai trò:** Danh sách ngày lễ công cộng. `sch.php` đọc bảng này để tô màu hồng cho cột header ngày lễ trong lưới calendar. Chia sẻ chung cho mọi tenant (không có `bkid`).
 
@@ -301,7 +294,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## datamaster
 
-*Được dùng tại: [[Lịch bảo trì#Hỗ trợ hiển thị calendar|Lịch bảo trì (VI)]], [[Phân quyền master#Hỗ trợ hiển thị|Phân quyền master]]*
 
 **Vai trò:** Master giá trị dropdown tổng quát. Lưu danh sách tên item theo `propid` (ví dụ `mtinfo_kbn`, `eq_kbn`) với nhãn bốn ngôn ngữ. Đọc qua `ppes_master()` để chuyển đổi mã số nguyên → tên hiển thị theo ngôn ngữ của người dùng. Chia sẻ chung cho mọi tenant (không có `bkid`).
 
@@ -320,7 +312,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## bk_infos
 
-*Được dùng tại: [[Lịch bảo trì#Dữ liệu widget trang|Lịch bảo trì (VI)]]*
 
 **Vai trò:** Thông báo theo tenant. Row thuộc về một `bkid` cụ thể. Hiển thị trong widget **【お知らせ】** trên trang lịch / TOP. Hỗ trợ tiêu đề/nội dung bốn ngôn ngữ và có thể giới hạn hiển thị theo nhà máy.
 
@@ -345,7 +336,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## infos
 
-*Được dùng tại: [[Lịch bảo trì#Dữ liệu widget trang|Lịch bảo trì (VI)]]*
 
 **Vai trò:** Thông báo toàn hệ thống, đăng từ `/padmin/`. Hiển thị trong widget info cùng với các entry của `bk_infos`. Không có `bkid` — hiển thị cho tất cả tenant. Chỉ super-admin mới quản lý được.
 
@@ -364,7 +354,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## buscomps
 
-*Được dùng tại: [[Lịch bảo trì#Auth / session context|Lịch bảo trì (VI)]], [[Phân quyền master#Auth / session context|Phân quyền master]]*
 
 **Vai trò:** Registry tenant. Nằm trong `zaikodb` (database super-admin). Mỗi row là một công ty tenant. Được đọc khi đăng nhập để xác định tenant, xác minh credentials, kiểm tra feature flag (`use_api`, `spe_*`, `use_*`), và resolve `bkid`. Được quản lý từ `/padmin/`.
 
@@ -404,7 +393,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## bk_staff
 
-*Được dùng tại: [[Lịch bảo trì#Auth / session context|Lịch bảo trì (VI)]], [[Phân quyền master#Auth / session context|Phân quyền master]]*
 
 **Vai trò:** Tài khoản nhân viên theo tenant. Mỗi row là một nhân viên của một tenant. Được `aspUser->openUser()` kiểm tra để xác thực session cookie và resolve `bkid` + `stf_id`. Cột `lang` xác định ngôn ngữ hiển thị cho người dùng đó.
 
@@ -436,7 +424,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## bkmasters
 
-*Được dùng tại: [[Lịch bảo trì#Auth / session context|Lịch bảo trì (VI)]], [[Phân quyền master#Auth / session context|Phân quyền master]]*
 
 **Vai trò:** Cấu hình tenant. Mỗi row ứng với một `bkid`. Lưu tên công ty, cài đặt giờ làm việc, tùy chọn hiển thị, cấu hình thanh toán, và các cài đặt cấp tenant được dùng trên tất cả trang. Được đọc sớm trong vòng đời request để áp dụng hành vi đặc thù của tenant.
 
@@ -470,7 +457,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_auths
 
-*Được dùng tại: [[Lịch bảo trì#Auth / session context|Lịch bảo trì (VI)]], [[Phân quyền master#Danh mục quyền|Phân quyền master]]*
 
 **Vai trò:** Nhóm quyền tính năng. Mỗi row là một nhóm quyền của một tenant. `aspUser->setAuth($db, $request, $authId)` đọc bảng này để kiểm tra xem nhóm của người dùng hiện tại có quyền xem hoặc chỉnh sửa một tính năng cụ thể trên trang hiện tại không. Mỗi cờ `at_N` ánh xạ đến một tính năng cụ thể.
 
@@ -500,7 +486,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_eqgroup
 
-*Được dùng tại: [[Lịch bảo trì#Auth / session context|Lịch bảo trì (VI)]]*
 
 **Vai trò:** Master nhóm thiết bị. Nhóm các thiết bị để phân loại. Được dùng cho bộ lọc `eqg_id` trên form tìm kiếm của `sch.php`. Các row thiết bị tham chiếu bảng này qua `a_equips.eqg_id`.
 
@@ -519,7 +504,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_area
 
-*Được dùng tại: [[Phân quyền master#Phân cấp địa điểm / tổ chức|Phân quyền master]]*
 
 **Vai trò:** Master khu vực. Nhóm địa lý cấp cao nhất, nằm trên nhà máy trong phân cấp địa điểm. Mỗi row nhà máy có `area_id` là app-level FK trỏ vào bảng này. Tài khoản nhân viên cũng có thể mang `area_id` để phân quyền truy cập. Được dùng trên `auth.php` như một lookup hỗ trợ cho UI nhà máy/nhân viên — không phải parent cấu trúc trực tiếp của `a_auths`.
 
@@ -538,7 +522,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_ckgroup
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Master nhóm kiểm tra. Nhóm nhiều hạng mục kiểm tra (`a_ckitem`) thành một nhóm có tên, có thể gán cho thiết bị trong quy trình kiểm định. Mỗi nhóm thuộc phạm vi tenant và được sắp xếp theo `disporder`.
 
@@ -557,7 +540,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_ckgroup_detail
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Bảng liên kết nhóm kiểm tra ↔ hạng mục kiểm tra. Liên kết các hạng mục kiểm tra riêng lẻ với nhóm kiểm tra cha. Cờ `required_flg` đánh dấu các hạng mục bắt buộc phải điền khi kiểm định.
 
@@ -576,7 +558,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_ckitem
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Master hạng mục kiểm tra. Định nghĩa các hạng mục kiểm tra / kiểm định riêng lẻ với tên, loại (đo lường số, lựa chọn, v.v.), giá trị min/max/cơ sở chấp nhận cho kiểm tra số, và các tùy chọn có thể chọn cho hạng mục dạng dropdown.
 
@@ -600,7 +581,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_eqgroup_detail
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Bảng liên kết nhóm thiết bị ↔ trường tùy chỉnh thiết bị. Kiểm soát trường tùy chỉnh động nào (`a_eqitem`) hiển thị trên form chỉnh sửa thiết bị của một nhóm thiết bị cụ thể. `required_flg` đánh dấu trường bắt buộc; `record_flg` kiểm soát hiển thị trong chế độ xem lịch sử / bản ghi.
 
@@ -622,7 +602,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_eqhist
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Lịch sử / nhật ký thay đổi thiết bị. Ghi nhận các mục văn bản có dấu thời gian cho mỗi thiết bị, khóa bởi `eq_id` + `eq_time` (unix timestamp). Dùng để theo dõi lịch sử chuyển giao, thay đổi trạng thái, và ghi chú của vận hành viên.
 
@@ -641,7 +620,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_eqitem
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Master định nghĩa trường tùy chỉnh thiết bị. Định nghĩa các trường động trên form chỉnh sửa thiết bị. Mỗi row xác định tên trường, loại input, regex xác thực, tùy chọn có thể chọn, ràng buộc min/max, và màu hiển thị. Hỗ trợ nhãn song ngữ (JP + EN). Liên kết đến nhóm thiết bị qua `a_eqgroup_detail`.
 
@@ -669,7 +647,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_eqpoint
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Master điểm kiểm tra thiết bị. Định nghĩa các điểm đo lường / kiểm tra được đặt tên trên một thiết bị.
 
@@ -693,7 +670,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_eqstocks
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Bảng liên kết thiết bị ↔ tồn kho. Liên kết hạng mục tồn kho với thiết bị tại một nhà máy cụ thể. Cột `tana` lưu thông tin kệ / vị trí lưu trữ.
 
@@ -713,7 +689,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_equips_detail
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Giá trị trường tùy chỉnh thiết bị. Lưu giá trị thực tế của mỗi trường động cho một thiết bị cụ thể.
 
@@ -734,7 +709,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_files
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Đăng ký file đính kèm tổng quát. Thiết kế đa hình — `f_type` xác định loại thực thể cha, `f_id` là ID record cha, `f_num` là số slot.
 
@@ -757,7 +731,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_floor
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Master tầng. Cấp thứ ba trong phân cấp địa điểm: Khu vực → Nhà máy → Dây chuyền → Tầng. Các row thiết bị có thể tham chiếu qua `flr_id`.
 
@@ -778,7 +751,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_mailtmpl
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Master mẫu email. Lưu các mẫu email được sử dụng trong quy trình thông báo bảo trì và cho thuê. Mỗi mẫu có tiêu đề, chủ đề, nội dung với token thay thế, và mã loại.
 
@@ -800,7 +772,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_maker
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Master nhà sản xuất / nhà cung cấp. Lưu thông tin liên hệ nhà sản xuất thiết bị và nhà cung cấp bao gồm liên hệ trực tiếp và liên hệ qua đại lý. Xóa mềm qua `mk_del`. Được thiết bị tham chiếu qua `a_equips.mat_mk_id`.
 
@@ -832,7 +803,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_mtbf
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Chỉ số độ tin cậy MTBF / MTTR. Thống kê Mean Time Between Failures và Mean Time To Repair được tính trước cho mỗi thiết bị theo từng kỳ tài chính.
 
@@ -858,7 +828,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_rent
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Bản ghi cho thuê / mượn thiết bị. Theo dõi việc cho mượn thiết bị với khoảng thời gian đặt chỗ, thông tin người mượn, quy trình phê duyệt, và cài đặt nhắc nhở trả.
 
@@ -892,7 +861,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_stocks
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Master tồn kho / phụ tùng. Mỗi row là một hạng mục tồn kho tại một nhà máy. Theo dõi số lượng hiện tại, mức tồn kho an toàn, ngưỡng cảnh báo, phân loại tồn kho, vị trí kệ, và thiết bị liên quan.
 
@@ -926,7 +894,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## a_tana
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Bản ghi kiểm kê vật lý (棚卸). Mỗi row là một lần quét thiết bị theo năm tài chính (`nendo`). Ghi nhận xác minh vật lý sự tồn tại của thiết bị. Hỗ trợ RFID qua cột `epc`.
 
@@ -968,7 +935,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## ads_master
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Master giá trị dropdown theo tenant. Khác với `datamaster` (dùng chung toàn hệ thống), `ads_master` lưu danh sách dropdown riêng cho từng tenant. Các hạng mục có thể ẩn qua `ishidden`.
 
@@ -989,7 +955,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## bk_idmaster
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Bộ cấp ID tuần tự cấp ứng dụng. Lưu giá trị ID khả dụng tiếp theo cho các loại thực thể khác nhau theo từng tenant. `p_name` xác định loại thực thể, `p_val` chứa giá trị tiếp theo.
 
@@ -1004,7 +969,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## busareas
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Phân công công ty ↔ khu vực. Bảng MyISAM legacy liên kết công ty tenant với mã khu vực. Không có primary key.
 
@@ -1018,7 +982,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## bustypengdays
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Ngày không khả dụng (NG) theo loại kinh doanh. Bảng MyISAM legacy ghi nhận ngày bị chặn / không khả dụng theo loại kinh doanh. Dùng trong bối cảnh lập lịch / hoạch định năng lực.
 
@@ -1034,7 +997,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## calendars
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Sự kiện lịch / ghi chú theo tenant. Lưu nhận xét theo từng ngày cho mỗi tenant. Dùng kết hợp với `holidays` (toàn hệ thống) để chú thích lịch.
 
@@ -1049,25 +1011,23 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## loginhist
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Nhật ký kiểm toán đăng nhập / đăng xuất. Ghi nhận mọi sự kiện xác thực với thời gian, IP remote, ID nhân viên, và cờ API.
 
-| Cột | Kiểu | Mục đích | [[Trang thiết bị]] | [[Quản lý tồn kho]] | [[Lịch bảo trì]] | [[Đặt lịch bảo trì]] | [[Công việc bảo trì]] | [[Danh sách kết quả bảo trì]] | [[Thông báo nội bộ]] | [[Phân quyền master]] | [[Quản lý nhân sự]] | [[Master cơ sở và vị trí]] | [[Master nhóm thiết bị]] | [[Master hạng mục thiết bị]] | [[Master maker]] | mt_master.php | [[Master mẫu email]] | [[Trang cấu hình]] | tana.php |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `histid` | bigint(20) unsigned AUTO_INCREMENT | ID bản ghi lịch sử (PK). |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| `bkid` | smallint(6) | Khóa phân vùng tenant. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| `stf_id` | smallint(6) | ID nhân viên đăng nhập. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| `logout` | char(1) | Cờ đăng xuất. `'0'` = đăng nhập, `'1'` = đăng xuất. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| `acstime` | datetime | Thời gian sự kiện xác thực. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| `rip` | varchar(32) | Địa chỉ IP remote. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| `is_api` | tinyint(1) | Cờ API. `1` = đăng nhập qua API. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| Cột       | Kiểu                               | Mục đíchhhhhhhhhhhh                                 | [[Trang thiết bị]] | [[Quản lý tồn kho]] | [[Lịch bảo trì]] | [[Đặt lịch bảo trì]] | [[Công việc bảo trì]] | [[Danh sách kết quả bảo trì]] | [[Thông báo nội bộ]] | [[Phân quyền master]] | [[Quản lý nhân sự]] | [[Master cơ sở và vị trí]] | [[Master nhóm thiết bị]] | [[Master hạng mục thiết bị]] | [[Master maker]] | mt_master.php | [[Master mẫu email]] | [[Trang cấu hình]] | tana.php |
+| --------- | ---------------------------------- | --------------------------------------------------- | ------------------ | ------------------- | ---------------- | -------------------- | --------------------- | ----------------------------- | -------------------- | --------------------- | ------------------- | -------------------------- | ------------------------ | ---------------------------- | ---------------- | ------------- | -------------------- | ------------------ | -------- |
+| `histid`  | bigint(20) unsigned AUTO_INCREMENT | ID bản ghi lịch sử (PK).                            |                    |                     |                  |                      |                       |                               |                      |                       |                     |                            |                          |                              |                  |               |                      |                    |          |
+| `bkid`    | smallint(6)                        | Khóa phân vùng tenant.                              |                    |                     |                  |                      |                       |                               |                      |                       |                     |                            |                          |                              |                  |               |                      |                    |          |
+| `stf_id`  | smallint(6)                        | ID nhân viên đăng nhập.                             |                    |                     |                  |                      |                       |                               |                      |                       |                     |                            |                          |                              |                  |               |                      |                    |          |
+| `logout`  | char(1)                            | Cờ đăng xuất. `'0'` = đăng nhập, `'1'` = đăng xuất. |                    |                     |                  |                      |                       |                               |                      |                       |                     |                            |                          |                              |                  |               |                      |                    |          |
+| `acstime` | datetime                           | Thời gian sự kiện xác thực.                         |                    |                     |                  |                      |                       |                               |                      |                       |                     |                            |                          |                              |                  |               |                      |                    |          |
+| `rip`     | varchar(32)                        | Địa chỉ IP remote.                                  |                    |                     |                  |                      |                       |                               |                      |                       |                     |                            |                          |                              |                  |               |                      |                    |          |
+| `is_api`  | tinyint(1)                         | Cờ API. `1` = đăng nhập qua API.                    |                    |                     |                  |                      |                       |                               |                      |                       |                     |                            |                          |                              |                  |               |                      |                    |          |
 
 ---
 
 ## mail_master
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Master người nhận email. Lưu địa chỉ email cho người nhận thông báo theo tenant, liên kết với mã nhân viên (`sya_id` → `syain_master`).
 
@@ -1088,7 +1048,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## myview
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Lịch bảo trì được đánh dấu cá nhân. Cho phép nhân viên đánh dấu các mục lịch bảo trì cụ thể để truy cập nhanh trong chế độ xem cá nhân.
 
@@ -1104,7 +1063,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## p_item
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Master hạng mục mua sắm (module CAPEX). Định nghĩa các hạng mục có thể mua sắm với đơn giá, tổng giá, số phiếu, danh mục kế toán, số phê duyệt liên kết. Là một phần của quy trình mua sắm theo dự án.
 
@@ -1151,7 +1109,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## p_mente
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Bản ghi bảo trì dự án (module CAPEX). Theo dõi các sự kiện bảo trì / sửa chữa liên kết với dự án và tài sản.
 
@@ -1187,7 +1144,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## p_proj
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Master dự án (module CAPEX). Thực thể cấp cao nhất cho dự án chi phí vốn. Lưu tên dự án, ngân sách, nhà máy, và số lượng tổng hợp phê duyệt, mua sắm, và tài sản liên kết. Xóa mềm qua `is_del`.
 
@@ -1234,7 +1190,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## p_purchase
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Đơn đặt hàng (module CAPEX). Đại diện cho một đơn đặt hàng liên kết với dự án. Lưu số đơn hàng, ngày, mô tả, tổng giá, nhà sản xuất, nhà máy, thông tin giao hàng, và tối đa năm file đính kèm. Xóa mềm qua `p_del`.
 
@@ -1284,7 +1239,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## p_puritem
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Dòng chi tiết đơn đặt hàng (module CAPEX). Các dòng chi tiết của đơn đặt hàng, khóa theo số dòng. Mỗi dòng có mô tả, đơn giá, số lượng, tổng tiền, và đơn vị.
 
@@ -1307,7 +1261,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## p_ringi
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Yêu cầu phê duyệt / 稟議 (module CAPEX). Yêu cầu phê duyệt chính thức cho chi phí vốn liên kết với dự án. Lưu số phê duyệt, số tiền, chi tiết kế toán, tối đa chín file đính kèm, và các chỉ số tài chính (hoàn vốn, NPV, IRR). Xóa mềm qua `r_del`.
 
@@ -1356,7 +1309,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## p_rinitem
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Dòng chi tiết yêu cầu phê duyệt (module CAPEX). Các dòng chi tiết của yêu cầu phê duyệt, khóa theo số dòng. Mỗi dòng có nhà sản xuất, số tiền thanh toán, dự toán, mã tài sản, bảo hành, chủ đề, và ghi chú đặc biệt.
 
@@ -1381,7 +1333,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## p_sisan
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Sổ tài sản cố định (module CAPEX). Theo dõi từng tài sản cố định với số tài sản, tên, giá, danh mục kế toán, liên kết mua sắm/dự án, thông số kỹ thuật, thông tin thanh lý, và thời hạn sử dụng. Có thể liên kết đến master thiết bị qua `eq_id`. Xóa mềm qua `si_del`.
 
@@ -1433,7 +1384,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## p_sisancode
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Master mã / thẻ tài sản (module CAPEX). Khóa bởi số tài sản, lưu dữ liệu thẻ tài sản vật lý: RFID, nhân viên phụ trách, ngày kiểm kê vật lý, phân công nhà máy.
 
@@ -1460,7 +1410,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## staff
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Tài khoản super-admin (zaikodb). Tách biệt với `bk_staff` của tenant — đây là tài khoản quản trị viên cấp hệ thống cho `/padmin/`. Không có `bkid` — không thuộc phạm vi tenant.
 
@@ -1479,7 +1428,6 @@ Mỗi mục liên kết ngược về trang tài liệu chi tiết đã sử d�
 
 ## syain_master
 
-*Được dùng tại: (nhiều trang)*
 
 **Vai trò:** Master công nhân / nhân viên vận hành (社員マスター). Lưu nhân viên tại hiện trường — có thể không có tài khoản đăng nhập hệ thống. Được module bảo trì, mua sắm, và thông báo email tham chiếu.
 

@@ -81,7 +81,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_equips
 
-*Used in: [[Schedule calendar#Core maintenance chain|Schedule calendar]]*
 
 **Purpose:** Equipment master. One row per physical piece of equipment owned by a tenant. Holds the name, factory/line location, equipment group, machine specifications, and up to 16 custom field slots. Soft-deleted via `del_flg` — deleted rows are hidden from all screens but retained in the database.
 
@@ -118,7 +117,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_mtinfo
 
-*Used in: [[Schedule calendar#Core maintenance chain|Schedule calendar]]*
 
 **Purpose:** Maintenance plan. One row per maintenance task attached to an equipment. Stores the task name, type, planned schedule window, cost estimate, and up to 19 attached files. The `sc_kbn` column distinguishes periodic BT tasks from estimate/quotation workflows.
 
@@ -170,7 +168,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_mtsch
 
-*Used in: [[Schedule calendar#Core maintenance chain|Schedule calendar]]*
 
 **Purpose:** Maintenance schedule instance. One row per scheduled occurrence of a plan (`mt_id` + `sdate`). This is the **single source of truth for all calendar icons** on `sch.php`. Owns the execution window (`s_date`/`e_date`), the completion flag (`mtr_done`), and the four date columns that drive Path B icons.
 
@@ -199,7 +196,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_mtres
 
-*Used in: [[Schedule calendar#Core maintenance chain|Schedule calendar]]*
 
 **Purpose:** Maintenance result. One row per completed schedule instance (keyed by `mts_uid`). Stores work details, staff names, actual work dates, costs, and up to 15 attached files. On `sch.php` this table is joined via LEFT JOIN for display data only — it does **not** control any calendar icon.
 
@@ -244,7 +240,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_factory
 
-*Used in: [[Schedule calendar#Location / org hierarchy|Schedule calendar]], [[Authorization master#Location / org hierarchy|Authorization master]]*
 
 **Purpose:** Factory master. Top-level location grouping. Every equipment row has a `fc_id` that is an app-level FK into this table. Used to populate the factory filter dropdown on `sch.php`.
 
@@ -265,7 +260,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_line
 
-*Used in: [[Schedule calendar#Location / org hierarchy|Schedule calendar]]*
 
 **Purpose:** Line master. Sub-location within a factory. Keyed by `bkid + line_id + fc_id`. Used for the line filter dropdown and shown as a column label in the calendar grid.
 
@@ -287,7 +281,6 @@ Each section links back to the page note(s) that use the table.
 
 ## holidays
 
-*Used in: [[Schedule calendar#Calendar display support|Schedule calendar]]*
 
 **Purpose:** Public holiday date list. `sch.php` reads this table to colour holiday column headers pink in the calendar grid. Shared across all tenants (no `bkid`).
 
@@ -301,7 +294,6 @@ Each section links back to the page note(s) that use the table.
 
 ## datamaster
 
-*Used in: [[Schedule calendar#Calendar display support|Schedule calendar]], [[Authorization master#Calendar display support|Authorization master]]*
 
 **Purpose:** Generic dropdown value master. Stores named item lists keyed by `propid` (e.g. `mtinfo_kbn`, `eq_kbn`) with labels in four languages. Read via `ppes_master()` to resolve integer codes → display names in Japanese, English, Chinese, or Vietnamese. Shared across all tenants (no `bkid`).
 
@@ -320,7 +312,6 @@ Each section links back to the page note(s) that use the table.
 
 ## bk_infos
 
-*Used in: [[Schedule calendar#Page widget data|Schedule calendar]]*
 
 **Purpose:** Tenant-scoped announcements. Rows belong to a specific `bkid`. Shown in the **【お知らせ】** info widget on the schedule / TOP page. Supports four-language titles/bodies and optional factory-level visibility restrictions.
 
@@ -345,7 +336,6 @@ Each section links back to the page note(s) that use the table.
 
 ## infos
 
-*Used in: [[Schedule calendar#Page widget data|Schedule calendar]]*
 
 **Purpose:** System-wide announcements published from `/padmin/`. Rendered in the info widget alongside `bk_infos` entries. No `bkid` — visible to all tenants. Managed exclusively by super-admins.
 
@@ -364,7 +354,6 @@ Each section links back to the page note(s) that use the table.
 
 ## buscomps
 
-*Used in: [[Schedule calendar#Auth / session context|Schedule calendar]], [[Authorization master#Auth / session context|Authorization master]]*
 
 **Purpose:** Tenant registry. Lives in `zaikodb` (the super-admin database). One row per tenant company. Read during login to identify the tenant, verify credentials, check feature flags (`use_api`, `spe_*`, `use_*`), and resolve `bkid`. Managed from `/padmin/`.
 
@@ -404,7 +393,6 @@ Each section links back to the page note(s) that use the table.
 
 ## bk_staff
 
-*Used in: [[Schedule calendar#Auth / session context|Schedule calendar]], [[Authorization master#Auth / session context|Authorization master]]*
 
 **Purpose:** Tenant staff accounts. One row per staff member per tenant. Checked by `aspUser->openUser()` to authenticate the session cookie and resolve `bkid` + `stf_id`. The `lang` column determines the display language for that user.
 
@@ -436,7 +424,6 @@ Each section links back to the page note(s) that use the table.
 
 ## bkmasters
 
-*Used in: [[Schedule calendar#Auth / session context|Schedule calendar]], [[Authorization master#Auth / session context|Authorization master]]*
 
 **Purpose:** Tenant configuration. One row per `bkid`. Stores company name, working-hour settings, display preferences, billing configuration, and other tenant-level settings used across all pages. Read early in the request lifecycle to apply tenant-specific behaviour.
 
@@ -470,7 +457,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_auths
 
-*Used in: [[Schedule calendar#Auth / session context|Schedule calendar]], [[Authorization master#Permission catalog|Authorization master]]*
 
 **Purpose:** Feature permission groups. One row per permission group per tenant. `aspUser->setAuth($db, $request, $authId)` reads this table to check whether the current user's group has permission to view or edit a specific feature on the current page. Each `at_N` flag maps to a specific feature (e.g. `at_12` = schedule page edit permission).
 
@@ -500,7 +486,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_eqgroup
 
-*Used in: [[Schedule calendar#Auth / session context|Schedule calendar]]*
 
 **Purpose:** Equipment group master. Groups of equipment named for categorisation. Used as the `eqg_id` filter on the `sch.php` calendar search form. Equipment rows reference this via `a_equips.eqg_id`.
 
@@ -519,7 +504,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_area
 
-*Used in: [[Authorization master#Location / org hierarchy|Authorization master]]*
 
 **Purpose:** Area master. Top-level geographic grouping, sitting above factory in the location hierarchy. Each factory row has an `area_id` that is an app-level FK into this table. Staff accounts may also carry an `area_id` for access scoping. Used on `auth.php` as a helper lookup for factory/staff UI -- not a direct structural parent of `a_auths`.
 
@@ -538,7 +522,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_ckgroup
 
-*Used in: (various pages)*
 
 **Purpose:** Check group master. Groups multiple check items (`a_ckitem`) into a named group that can be assigned to equipment for inspection workflows. Each group is tenant-scoped and ordered by `disporder`.
 
@@ -557,7 +540,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_ckgroup_detail
 
-*Used in: (various pages)*
 
 **Purpose:** Check group ↔ check item junction table. Links individual check items to their parent check group. The `required_flg` marks items that must be filled in during inspection.
 
@@ -576,7 +558,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_ckitem
 
-*Used in: (various pages)*
 
 **Purpose:** Check item master. Defines individual inspection/check items with name, type (numeric measurement, selection, etc.), acceptable min/max/base values for numeric checks, and selectable options for dropdown-type items. Used in equipment inspection workflows.
 
@@ -600,7 +581,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_eqgroup_detail
 
-*Used in: (various pages)*
 
 **Purpose:** Equipment group ↔ equipment item junction table. Controls which dynamic custom fields (`a_eqitem`) appear on the equipment edit form for a given equipment group (`a_eqgroup`). The `required_flg` marks mandatory fields; `record_flg` controls visibility in record/history views.
 
@@ -622,7 +602,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_eqhist
 
-*Used in: (various pages)*
 
 **Purpose:** Equipment history / change log. Records timestamped text entries for each equipment item, keyed by `eq_id` + `eq_time` (unix timestamp). Used to track transfer history, status changes, and operator notes.
 
@@ -641,7 +620,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_eqitem
 
-*Used in: (various pages)*
 
 **Purpose:** Equipment custom field definition master. Defines the dynamic fields that can appear on equipment edit forms. Each row defines a field name, input type (text, select, number, etc.), validation regex, selectable options, min/max constraints, and display colour. Supports bilingual labels (JP + EN). Linked to equipment groups via `a_eqgroup_detail`.
 
@@ -669,7 +647,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_eqpoint
 
-*Used in: (various pages)*
 
 **Purpose:** Equipment inspection point master. Defines named measurement/inspection points on a piece of equipment. Each point has a name, up to three free-form metadata fields (`fld1`–`fld3`), and a sort order. Soft-deleted via `is_del`.
 
@@ -693,7 +670,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_eqstocks
 
-*Used in: (various pages)*
 
 **Purpose:** Equipment ↔ stock linkage junction table. Associates stock items (`a_stocks.hin_id`) with equipment (`a_equips.eq_id`) at a specific factory. The `tana` column stores shelf/location info. Indexed for both stock-centric and equipment-centric lookups.
 
@@ -713,7 +689,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_equips_detail
 
-*Used in: (various pages)*
 
 **Purpose:** Equipment custom field values. Stores the actual value (`eqd_val`) of each dynamic field for a specific equipment item. Keyed by equipment ID + field definition ID (`eqitem_id` → `a_eqitem`). One row per field per equipment.
 
@@ -734,7 +709,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_files
 
-*Used in: (various pages)*
 
 **Purpose:** Generic file attachment registry. Polymorphic design — `f_type` identifies the parent entity type (e.g. equipment, maintenance), `f_id` is the parent record ID, `f_num` is a slot number. Stores file metadata (name, size) rather than the binary content itself.
 
@@ -757,7 +731,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_floor
 
-*Used in: (various pages)*
 
 **Purpose:** Floor master. Third level in the location hierarchy: Area → Factory → Line → Floor. Keyed by factory + line + floor ID. Equipment rows can reference this via `flr_id`. Used for fine-grained location tracking within a production line.
 
@@ -778,7 +751,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_mailtmpl
 
-*Used in: (various pages)*
 
 **Purpose:** Mail template master. Stores email templates used by maintenance and rental notification flows. Each template has a title (internal label), subject line, body text with placeholder tokens, and a type code (`mtype`). Edited from the mail template management page; consumed downstream when sending notifications.
 
@@ -800,7 +772,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_maker
 
-*Used in: (various pages)*
 
 **Purpose:** Maker / manufacturer master. Stores equipment manufacturer and vendor contact information including direct and agent (代理店) contacts. Each maker has phone, fax, contact person details for both the maker itself and its local agent. Soft-deleted via `mk_del`. Referenced by equipment via `a_equips.mat_mk_id`.
 
@@ -832,7 +803,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_mtbf
 
-*Used in: (various pages)*
 
 **Purpose:** MTBF / MTTR reliability metrics. Stores pre-calculated Mean Time Between Failures (MTBF) and Mean Time To Repair (MTTR) statistics per equipment per fiscal term. Includes total time, downtime, live time, failure count, and the analysis period (`startdate`/`enddate`). Keyed by equipment ID + fiscal term ID.
 
@@ -858,7 +828,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_rent
 
-*Used in: (various pages)*
 
 **Purpose:** Equipment rental / loan record. Tracks equipment lending with reservation period (`start_date`/`end_date`), borrower info (staff, email, phone, section, purpose), approval workflow (`auth_stf`, `auth_date`, `rt_auth_stat`), and return reminder settings. `rent_stat` tracks lifecycle status; `is_rent` flags currently-rented state.
 
@@ -892,7 +861,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_stocks
 
-*Used in: (various pages)*
 
 **Purpose:** Stock / spare parts inventory master. One row per stock item per factory. Tracks current quantity (`stk_num`), safety stock level, warning threshold, stock classification, shelf location (`stk_tana`), and associated equipment. `stk_eq_names` stores a blob of linked equipment names for display. Keyed by item code + factory.
 
@@ -926,7 +894,6 @@ Each section links back to the page note(s) that use the table.
 
 ## a_tana
 
-*Used in: (various pages)*
 
 **Purpose:** Physical inventory / stocktaking (棚卸) record. One row per equipment scan per fiscal year (`nendo`). Records physical verification of equipment existence: scan code, read date, area, team (`tana_kumi`), staff, matching flags for model number and team verification. `m_eq_id` links to the matched equipment master. Supports RFID via `epc` column.
 
@@ -968,7 +935,6 @@ Each section links back to the page note(s) that use the table.
 
 ## ads_master
 
-*Used in: (various pages)*
 
 **Purpose:** Tenant-scoped dropdown value master. Unlike `datamaster` (which is global/shared), `ads_master` stores per-tenant dropdown lists keyed by `bkid` + `propid` + `itid`. Items can be hidden via `ishidden`. Used for tenant-customisable classification codes (e.g. work types, part categories).
 
@@ -989,7 +955,6 @@ Each section links back to the page note(s) that use the table.
 
 ## bk_idmaster
 
-*Used in: (various pages)*
 
 **Purpose:** Application-level serial ID allocator. Stores the next available ID value for various entity types per tenant. `p_name` identifies the entity type (e.g. `'stf_id'`, `'eqg_id'`, `'eq_id'`), and `p_val` holds the next value to assign. Incremented atomically when creating new records.
 
@@ -1004,7 +969,6 @@ Each section links back to the page note(s) that use the table.
 
 ## busareas
 
-*Used in: (various pages)*
 
 **Purpose:** Business company ↔ area assignment. Legacy MyISAM table linking tenant companies (`bcid`) to area codes. Used in the `zaikodb` admin context for geographic grouping of tenants. No primary key defined.
 
@@ -1018,7 +982,6 @@ Each section links back to the page note(s) that use the table.
 
 ## bustypengdays
 
-*Used in: (various pages)*
 
 **Purpose:** Business type NG (no-good) days. Legacy MyISAM table recording unavailable/blocked dates per business type. `daisu` stores a count (e.g. number of units affected). Used in scheduling/capacity planning contexts.
 
@@ -1034,7 +997,6 @@ Each section links back to the page note(s) that use the table.
 
 ## calendars
 
-*Used in: (various pages)*
 
 **Purpose:** Tenant-scoped calendar events / notes. Stores per-date comments for each tenant. Used alongside `holidays` (system-wide) to annotate the schedule calendar with tenant-specific notes. Keyed by tenant + date.
 
@@ -1049,7 +1011,6 @@ Each section links back to the page note(s) that use the table.
 
 ## loginhist
 
-*Used in: (various pages)*
 
 **Purpose:** Login / logout audit trail. Records every authentication event with timestamp, remote IP (`rip`), staff ID, and whether the access was via API (`is_api`). `logout` distinguishes login vs. logout events. Used for security audit and the login history page.
 
@@ -1067,7 +1028,6 @@ Each section links back to the page note(s) that use the table.
 
 ## mail_master
 
-*Used in: (various pages)*
 
 **Purpose:** Mail recipient master. Stores email addresses for notification recipients per tenant, linked to a worker ID (`sya_id` → `syain_master`). Used when sending maintenance/rental notifications to build the recipient list. Items can be hidden via `ishidden`.
 
@@ -1088,7 +1048,6 @@ Each section links back to the page note(s) that use the table.
 
 ## myview
 
-*Used in: (various pages)*
 
 **Purpose:** User-bookmarked schedule instances. Allows a staff member to "star" or bookmark specific maintenance schedule entries (`mts_uid` → `a_mtsch`) for quick access in their personal view. Each row links a schedule instance to the staff member who bookmarked it.
 
@@ -1104,7 +1063,6 @@ Each section links back to the page note(s) that use the table.
 
 ## p_item
 
-*Used in: (various pages)*
 
 **Purpose:** Procurement item master (CAPEX module). Defines purchasable items with unit price, total price, slip number (`den_ban`), accounting category (`keiri_kbn`), kind, purchase order number, and linked approval number (`rin_ban`). Tracks in/out quantities, up to two maker references, and associated asset IDs. Part of the project-based procurement workflow.
 
@@ -1151,7 +1109,6 @@ Each section links back to the page note(s) that use the table.
 
 ## p_mente
 
-*Used in: (various pages)*
 
 **Purpose:** Project maintenance record (CAPEX module). Tracks maintenance/repair events linked to projects (`p_id`/`pp_id`) and assets (`si_id`). Stores date, cost, maker, work content (`pm_naiyou`), remarks, and up to two attached files. Cross-references asset numbers, approval numbers, and purchase order numbers.
 
@@ -1187,7 +1144,6 @@ Each section links back to the page note(s) that use the table.
 
 ## p_proj
 
-*Used in: (various pages)*
 
 **Purpose:** Project master (CAPEX module). Top-level entity for capital expenditure projects. Stores project name, budget, factory, responsible worker, and aggregated counts for linked approvals (`rin_num`/`rin_fin`), purchases (`p_qty`/`p_fin`), and assets. Contains denormalised summary text blobs for approvals, purchases, and assets for display. Soft-deleted via `is_del`.
 
@@ -1234,7 +1190,6 @@ Each section links back to the page note(s) that use the table.
 
 ## p_purchase
 
-*Used in: (various pages)*
 
 **Purpose:** Purchase order (CAPEX module). Represents a purchase order linked to a project. Stores order number (`p_num`), date, description, total price, maker, factory, worker, delivery info, and up to five attached files. Tracks delivery status (`nouhin_flg`), inspection date, payment conditions, and linked approval number. Soft-deleted via `p_del`.
 
@@ -1284,7 +1239,6 @@ Each section links back to the page note(s) that use the table.
 
 ## p_puritem
 
-*Used in: (various pages)*
 
 **Purpose:** Purchase order line item (CAPEX module). Detail rows for a purchase order (`p_num`), keyed by line number (`gyo_no`). Each line has a description (`p_con`), unit price (`p_tan`), quantity, total amount, and unit of measure.
 
@@ -1307,7 +1261,6 @@ Each section links back to the page note(s) that use the table.
 
 ## p_ringi
 
-*Used in: (various pages)*
 
 **Purpose:** Approval request / ringi (稟議) (CAPEX module). Represents a formal approval request for capital expenditure linked to a project. Stores approval number (`rin_ban`), date, title, requested amount, accounting details, settlement info, up to nine attached files, plan/actual dates, reason, remarks, and financial metrics (payback period `kaisyu_y`, NPV, IRR). Soft-deleted via `r_del`.
 
@@ -1356,7 +1309,6 @@ Each section links back to the page note(s) that use the table.
 
 ## p_rinitem
 
-*Used in: (various pages)*
 
 **Purpose:** Approval request line item (CAPEX module). Detail rows for a ringi (`rin_ban`), keyed by line number (`gyo_no`). Each line has a maker reference, payment amount, estimate amount, asset code, warranty info, subject, and special notes.
 
@@ -1381,7 +1333,6 @@ Each section links back to the page note(s) that use the table.
 
 ## p_sisan
 
-*Used in: (various pages)*
 
 **Purpose:** Fixed asset register (CAPEX module). Tracks individual fixed assets with asset number (`si_ban`), name, price, slip number, accounting category, purchase order reference, project link, status, delivery vendor, equipment classification, type ID, serial number, specs, disposal info, and useful life period. Can be linked to equipment master via `eq_id`. Soft-deleted via `si_del`.
 
@@ -1433,7 +1384,6 @@ Each section links back to the page note(s) that use the table.
 
 ## p_sisancode
 
-*Used in: (various pages)*
 
 **Purpose:** Asset code / tag master (CAPEX module). Keyed by asset number (`si_ban`), stores physical asset tag data: RFID tag, responsible worker, attached file, physical inventory date (`tana_date`), factory assignment, and actual count. Used for asset stocktaking / physical verification.
 
@@ -1460,7 +1410,6 @@ Each section links back to the page note(s) that use the table.
 
 ## staff
 
-*Used in: (various pages)*
 
 **Purpose:** Super-admin staff accounts (zaikodb). Separate from tenant `bk_staff` — these are system-level administrator accounts used to log into `/padmin/`. Minimal schema: login, password, email, permission level, name. Soft-deleted via `is_del`. No `bkid` — not tenant-scoped.
 
@@ -1479,7 +1428,6 @@ Each section links back to the page note(s) that use the table.
 
 ## syain_master
 
-*Used in: (various pages)*
 
 **Purpose:** Worker / operator master (社員マスター). Stores on-site workers who may not have system login accounts (unlike `bk_staff`). Each worker has a code (`sya_id`), name, factory/line assignment, email, and visibility flags. Referenced by maintenance, procurement, and mail notification modules to identify responsible workers.
 
