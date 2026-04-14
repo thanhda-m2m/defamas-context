@@ -24,58 +24,58 @@ Each section links back to the page note(s) that use the table.
 
 | No. | Table                 | Category              | Brief purpose                           |
 | --- | --------------------- | --------------------- | --------------------------------------- |
-|     | [[#a_equips]]         | Core maintenance      | Equipment master                        |
-|     | [[#a_mtinfo]]         | Core maintenance      | Maintenance plan                        |
-|     | [[#a_mtsch]]          | Core maintenance      | Maintenance schedule instance           |
-|     | [[#a_mtres]]          | Core maintenance      | Maintenance result                      |
-|     | [[#a_factory]]        | Location / org        | Factory master                          |
-|     | [[#a_line]]           | Location / org        | Line master                             |
-|     | [[#a_floor]]          | Location / org        | Floor master                            |
-|     | [[#a_area]]           | Location / org        | Area master                             |
-|     | [[#holidays]]         | Calendar support      | Public holiday dates                    |
-|     | [[#datamaster]]       | Master data           | Generic dropdown value master (global)  |
-|     | [[#ads_master]]       | Master data           | Tenant-scoped dropdown value master     |
-|     | [[#bk_idmaster]]      | Master data           | Application-level serial ID allocator   |
-|     | [[#bk_infos]]         | Page widget           | Tenant-scoped announcements             |
-|     | [[#infos]]            | Page widget           | System-wide announcements               |
-|     | [[#buscomps]]         | Auth / admin          | Tenant registry (zaikodb)               |
-|     | [[#bk_staff]]         | Auth / admin          | Tenant staff accounts                   |
-|     | [[#bkmasters]]        | Auth / admin          | Tenant configuration                    |
-|     | [[#a_auths]]          | Auth / admin          | Feature permission groups               |
-|     | [[#busareas]]         | Auth / admin          | Business company ↔ area assignment      |
-|     | [[#bustypengdays]]    | Auth / admin          | Business type NG days                   |
-|     | [[#loginhist]]        | Auth / admin          | Login / logout audit trail              |
-|     | [[#staff]]            | Auth / admin          | Super-admin staff accounts (zaikodb)    |
-|     | [[#a_eqgroup]]        | Equipment domain      | Equipment group master                  |
-|     | [[#a_eqgroup_detail]] | Equipment domain      | Equipment group ↔ custom field junction |
-|     | [[#a_eqhist]]         | Equipment domain      | Equipment history / change log          |
-|     | [[#a_eqitem]]         | Equipment domain      | Equipment custom field definition       |
-|     | [[#a_eqpoint]]        | Equipment domain      | Equipment inspection point master       |
-|     | [[#a_eqstocks]]       | Equipment domain      | Equipment ↔ stock linkage               |
-|     | [[#a_equips_detail]]  | Equipment domain      | Equipment custom field values           |
-|     | [[#a_ckgroup]]        | Inspection / check    | Check group master                      |
-|     | [[#a_ckgroup_detail]] | Inspection / check    | Check group ↔ check item junction       |
-|     | [[#a_ckitem]]         | Inspection / check    | Check item master                       |
-|     | [[#a_files]]          | File management       | Generic file attachment registry        |
-|     | [[#a_mailtmpl]]       | Mail / notification   | Mail template master                    |
-|     | [[#mail_master]]      | Mail / notification   | Mail recipient master                   |
-|     | [[#a_maker]]          | Maker / vendor        | Maker / manufacturer master             |
-|     | [[#a_mtbf]]           | Reliability           | MTBF / MTTR reliability metrics         |
-|     | [[#a_rent]]           | Rental                | Equipment rental / loan record          |
-|     | [[#a_stocks]]         | Stock / inventory     | Stock / spare parts inventory master    |
-|     | [[#a_tana]]           | Stock / inventory     | Physical inventory / stocktaking record |
-|     | [[#calendars]]        | Calendar / scheduling | Tenant-scoped calendar events           |
-|     | [[#myview]]           | Calendar / scheduling | User-bookmarked schedule instances      |
-|     | [[#p_proj]]           | CAPEX / procurement   | Project master                          |
-|     | [[#p_ringi]]          | CAPEX / procurement   | Approval request / ringi                |
-|     | [[#p_rinitem]]        | CAPEX / procurement   | Approval request line item              |
-|     | [[#p_purchase]]       | CAPEX / procurement   | Purchase order                          |
-|     | [[#p_puritem]]        | CAPEX / procurement   | Purchase order line item                |
-|     | [[#p_item]]           | CAPEX / procurement   | Procurement item master                 |
-|     | [[#p_mente]]          | CAPEX / procurement   | Project maintenance record              |
-|     | [[#p_sisan]]          | CAPEX / procurement   | Fixed asset register                    |
-|     | [[#p_sisancode]]      | CAPEX / procurement   | Asset code / tag master                 |
-|     | [[#syain_master]]     | Worker                | Worker / operator master                |
+| 1   | [[#a_equips]]         | Core maintenance      | Equipment master                        |
+| 2   | [[#a_mtinfo]]         | Core maintenance      | Maintenance plan                        |
+| 3   | [[#a_mtsch]]          | Core maintenance      | Maintenance schedule instance           |
+| 4   | [[#a_mtres]]          | Core maintenance      | Maintenance result                      |
+| 5   | [[#a_factory]]        | Location / org        | Factory master                          |
+| 6   | [[#a_line]]           | Location / org        | Line master                             |
+| 7   | [[#a_floor]]          | Location / org        | Floor master                            |
+| 8   | [[#a_area]]           | Location / org        | Area master                             |
+| 9   | [[#holidays]]         | Calendar support      | Public holiday dates                    |
+| 10  | [[#datamaster]]       | Master data           | Generic dropdown value master (global)  |
+| 11  | [[#ads_master]]       | Master data           | Tenant-scoped dropdown value master     |
+| 12  | [[#bk_idmaster]]      | Master data           | Application-level serial ID allocator   |
+| 13  | [[#bk_infos]]         | Page widget           | Tenant-scoped announcements             |
+| 14  | [[#infos]]            | Page widget           | System-wide announcements               |
+| 15  | [[#buscomps]]         | Auth / admin          | Tenant registry (zaikodb)               |
+| 16  | [[#bk_staff]]         | Auth / admin          | Tenant staff accounts                   |
+| 17  | [[#bkmasters]]        | Auth / admin          | Tenant configuration                    |
+| 18  | [[#a_auths]]          | Auth / admin          | Feature permission groups               |
+| 19  | [[#busareas]]         | Auth / admin          | Business company ↔ area assignment      |
+| 20  | [[#bustypengdays]]    | Auth / admin          | Business type NG days                   |
+| 21  | [[#loginhist]]        | Auth / admin          | Login / logout audit trail              |
+| 22  | [[#staff]]            | Auth / admin          | Super-admin staff accounts (zaikodb)    |
+| 23  | [[#a_eqgroup]]        | Equipment domain      | Equipment group master                  |
+| 24  | [[#a_eqgroup_detail]] | Equipment domain      | Equipment group ↔ custom field junction |
+| 25  | [[#a_eqhist]]         | Equipment domain      | Equipment history / change log          |
+| 26  | [[#a_eqitem]]         | Equipment domain      | Equipment custom field definition       |
+| 27  | [[#a_eqpoint]]        | Equipment domain      | Equipment inspection point master       |
+| 28  | [[#a_eqstocks]]       | Equipment domain      | Equipment ↔ stock linkage               |
+| 29  | [[#a_equips_detail]]  | Equipment domain      | Equipment custom field values           |
+| 30  | [[#a_ckgroup]]        | Inspection / check    | Check group master                      |
+| 31  | [[#a_ckgroup_detail]] | Inspection / check    | Check group ↔ check item junction       |
+| 32  | [[#a_ckitem]]         | Inspection / check    | Check item master                       |
+| 33  | [[#a_files]]          | File management       | Generic file attachment registry        |
+| 34  | [[#a_mailtmpl]]       | Mail / notification   | Mail template master                    |
+| 35  | [[#mail_master]]      | Mail / notification   | Mail recipient master                   |
+| 36  | [[#a_maker]]          | Maker / vendor        | Maker / manufacturer master             |
+| 37  | [[#a_mtbf]]           | Reliability           | MTBF / MTTR reliability metrics         |
+| 38  | [[#a_rent]]           | Rental                | Equipment rental / loan record          |
+| 39  | [[#a_stocks]]         | Stock / inventory     | Stock / spare parts inventory master    |
+| 40  | [[#a_tana]]           | Stock / inventory     | Physical inventory / stocktaking record |
+| 41  | [[#calendars]]        | Calendar / scheduling | Tenant-scoped calendar events           |
+| 42  | [[#myview]]           | Calendar / scheduling | User-bookmarked schedule instances      |
+| 43  | [[#p_proj]]           | CAPEX / procurement   | Project master                          |
+| 44  | [[#p_ringi]]          | CAPEX / procurement   | Approval request / ringi                |
+| 45  | [[#p_rinitem]]        | CAPEX / procurement   | Approval request line item              |
+| 46  | [[#p_purchase]]       | CAPEX / procurement   | Purchase order                          |
+| 47  | [[#p_puritem]]        | CAPEX / procurement   | Purchase order line item                |
+| 48  | [[#p_item]]           | CAPEX / procurement   | Procurement item master                 |
+| 49  | [[#p_mente]]          | CAPEX / procurement   | Project maintenance record              |
+| 50  | [[#p_sisan]]          | CAPEX / procurement   | Fixed asset register                    |
+| 51  | [[#p_sisancode]]      | CAPEX / procurement   | Asset code / tag master                 |
+| 52  | [[#syain_master]]     | Worker                | Worker / operator master                |
 
 ---
 
